@@ -1,13 +1,15 @@
-
-
+/***************************************************************************
+* æ–‡ä»¶å  ï¼šusart1.c
+ * æè¿°    ï¼šå°†printfå‡½æ•°é‡å®šå‘åˆ°USART1ã€‚è¿™æ ·å°±å¯ä»¥ç”¨printfå‡½æ•°å°†å•ç‰‡æœºçš„æ•°æ®
+****************************************************************************/
 #include "usart1.h"
 #include <stdarg.h>
 /*
- * º¯ÊıÃû£ºUSART1_Config
- * ÃèÊö  £ºUSART1 GPIO ÅäÖÃ,¹¤×÷Ä£Ê½ÅäÖÃ
- * ÊäÈë  £ºÎŞ
- * Êä³ö  : ÎŞ
- * µ÷ÓÃ  £ºÍâ²¿µ÷ÓÃ
+ * å‡½æ•°åï¼šUSART1_Config
+ * æè¿°  ï¼šUSART1 GPIO é…ç½®,å·¥ä½œæ¨¡å¼é…ç½®
+ * è¾“å…¥  ï¼šæ— 
+ * è¾“å‡º  : æ— 
+ * è°ƒç”¨  ï¼šå¤–éƒ¨è°ƒç”¨
  */
 void USART1_Config(void)
 {
@@ -40,15 +42,15 @@ void USART1_Config(void)
 }
 
 /*
- * º¯ÊıÃû£ºfputc
- * ÃèÊö  £ºÖØ¶¨Ïòc¿âº¯Êıprintfµ½USART1
- * ÊäÈë  £ºÎŞ
- * Êä³ö  £ºÎŞ
- * µ÷ÓÃ  £ºÓÉprintfµ÷ÓÃ
+ * å‡½æ•°åï¼šfputc
+ * æè¿°  ï¼šé‡å®šå‘cåº“å‡½æ•°printfåˆ°USART1
+ * è¾“å…¥  ï¼šæ— 
+ * è¾“å‡º  ï¼šæ— 
+ * è°ƒç”¨  ï¼šç”±printfè°ƒç”¨
  */
 int fputc(int ch, FILE *f)
 {
-    /* ½«PrintfÄÚÈİ·¢Íù´®¿Ú */
+    /* å°†Printfå†…å®¹å‘å¾€ä¸²å£ */
     USART_SendData(USART1, (unsigned char) ch);
     while (!(USART1->SR & USART_FLAG_TXE));
     
@@ -57,16 +59,16 @@ int fputc(int ch, FILE *f)
 
 
 /*
- * º¯ÊıÃû£ºitoa
- * ÃèÊö  £º½«ÕûĞÎÊı¾İ×ª»»³É×Ö·û´®
- * ÊäÈë  £º-radix =10 ±íÊ¾10½øÖÆ£¬ÆäËû½á¹ûÎª0
- *         -value Òª×ª»»µÄÕûĞÎÊı
- *         -buf ×ª»»ºóµÄ×Ö·û´®
+ * å‡½æ•°åï¼šitoa
+ * æè¿°  ï¼šå°†æ•´å½¢æ•°æ®è½¬æ¢æˆå­—ç¬¦ä¸²
+ * è¾“å…¥  ï¼š-radix =10 è¡¨ç¤º10è¿›åˆ¶ï¼Œå…¶ä»–ç»“æœä¸º0
+ *         -value è¦è½¬æ¢çš„æ•´å½¢æ•°
+ *         -buf è½¬æ¢åçš„å­—ç¬¦ä¸²
  *         -radix = 10
- * Êä³ö  £ºÎŞ
- * ·µ»Ø  £ºÎŞ
- * µ÷ÓÃ  £º±»USART1_printf()µ÷ÓÃ
- * ¾ÙÀı  £ºUSART1_printf(USART1, "\r\nhello world \r\n");
+ * è¾“å‡º  ï¼šæ— 
+ * è¿”å›  ï¼šæ— 
+ * è°ƒç”¨  ï¼šè¢«USART1_printf()è°ƒç”¨
+ * ä¸¾ä¾‹  ï¼šUSART1_printf(USART1, "\r\nhello world \r\n");
  */
 static char *itoa(int value, char *string, int radix)
 {
@@ -122,15 +124,15 @@ static char *itoa(int value, char *string, int radix)
 
 
 /*
- * º¯ÊıÃû£ºUSART1_printf
- * ÃèÊö  £º¸ñÊ½»¯Êä³ö£¬ÀàËÆÓÚC¿âÖĞµÄprintf£¬µ«ÕâÀïÃ»ÓĞÓÃµ½C¿â
- * ÊäÈë  £º-USARTx ´®¿ÚÍ¨µÀ£¬ÕâÀïÖ»ÓÃµ½ÁË´®¿Ú1£¬¼´USART1
- *		     -Data   Òª·¢ËÍµ½´®¿ÚµÄÄÚÈİµÄÖ¸Õë
- *			   -...    ÆäËû²ÎÊı
- * Êä³ö  £ºÎŞ
- * ·µ»Ø  £ºÎŞ 
- * µ÷ÓÃ  £ºÍâ²¿µ÷ÓÃ
- *         µäĞÍÓ¦ÓÃUSART1_printf( USART1, "\r\n this is a demo \r\n" );
+ * å‡½æ•°åï¼šUSART1_printf
+ * æè¿°  ï¼šæ ¼å¼åŒ–è¾“å‡ºï¼Œç±»ä¼¼äºCåº“ä¸­çš„printfï¼Œä½†è¿™é‡Œæ²¡æœ‰ç”¨åˆ°Cåº“
+ * è¾“å…¥  ï¼š-USARTx ä¸²å£é€šé“ï¼Œè¿™é‡Œåªç”¨åˆ°äº†ä¸²å£1ï¼Œå³USART1
+ *		     -Data   è¦å‘é€åˆ°ä¸²å£çš„å†…å®¹çš„æŒ‡é’ˆ
+ *			   -...    å…¶ä»–å‚æ•°
+ * è¾“å‡º  ï¼šæ— 
+ * è¿”å›  ï¼šæ—  
+ * è°ƒç”¨  ï¼šå¤–éƒ¨è°ƒç”¨
+ *         å…¸å‹åº”ç”¨USART1_printf( USART1, "\r\n this is a demo \r\n" );
  *            		 USART1_printf( USART1, "\r\n %d \r\n", i );
  *            		 USART1_printf( USART1, "\r\n %s \r\n", j );
  */
@@ -143,18 +145,18 @@ void USART1_printf(USART_TypeDef* USARTx, uint8_t *Data,...)
     va_list ap;
     va_start(ap, Data);
     
-    while ( *Data != 0)     // ÅĞ¶ÏÊÇ·ñµ½´ï×Ö·û´®½áÊø·û
+    while ( *Data != 0)     // åˆ¤æ–­æ˜¯å¦åˆ°è¾¾å­—ç¬¦ä¸²ç»“æŸç¬¦
     {				                          
         if ( *Data == 0x5c )  //'\'
         {									  
             switch ( *++Data )
             {
-            case 'r':							          //»Ø³µ·û
+            case 'r':							          //å›è½¦ç¬¦
                 USART_SendData(USARTx, 0x0d);
                 Data ++;
                 break;
                 
-            case 'n':							          //»»ĞĞ·û
+            case 'n':							          //æ¢è¡Œç¬¦
                 USART_SendData(USARTx, 0x0a);	
                 Data ++;
                 break;
@@ -168,7 +170,7 @@ void USART1_printf(USART_TypeDef* USARTx, uint8_t *Data,...)
         {									  //
             switch ( *++Data )
             {				
-            case 's':										  //×Ö·û´®
+            case 's':										  //å­—ç¬¦ä¸²
                 s = va_arg(ap, const char *);
                 for ( ; *s; s++) 
                 {
@@ -178,7 +180,7 @@ void USART1_printf(USART_TypeDef* USARTx, uint8_t *Data,...)
                 Data++;
                 break;
                 
-        case 'd':										//Ê®½øÖÆ
+        case 'd':										//åè¿›åˆ¶
             d = va_arg(ap, int);
             itoa(d, buf, 10);
             for (s = buf; *s; s++) 
