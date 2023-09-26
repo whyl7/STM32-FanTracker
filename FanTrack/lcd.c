@@ -1,7 +1,7 @@
 /******************** ********************************************************
- * ÎÄ¼şÃû  £ºmain.c
- * ÃèÊö    £ºLCD FSMC Ó¦ÓÃº¯Êı¿â¡£
- *           ÊµÏÖµÄ¹¦ÄÜ£ºÇåÆÁ¡¢»­µã¡¢»®Ïß¡¢ÏÔÊ¾Êı×Ö¡¢×Ö·û´®¡¢Í¼Æ¬¡¢ºº×Ö         
+ * æ–‡ä»¶å  ï¼šmain.c
+ * æè¿°    ï¼šLCD FSMC åº”ç”¨å‡½æ•°åº“ã€‚
+ *           å®ç°çš„åŠŸèƒ½ï¼šæ¸…å±ã€ç”»ç‚¹ã€åˆ’çº¿ã€æ˜¾ç¤ºæ•°å­—ã€å­—ç¬¦ä¸²ã€å›¾ç‰‡ã€æ±‰å­—         
 **********************************************************************************/
 #include "lcd.h"
 #include "ascii.h"		// 12*6
@@ -9,12 +9,12 @@
 #include "sd_fs_app.h"
 
 
-/* Ñ¡ÔñBANK1-BORSRAM1 Á¬½Ó TFT£¬µØÖ··¶Î§Îª0X60000000~0X63FFFFFF
- * FSMC_A16 ½ÓLCDµÄDC(¼Ä´æÆ÷/Êı¾İÑ¡Ôñ)½Å
- * 16 bit => FSMC[24:0]¶ÔÓ¦HADDR[25:1]
- * ¼Ä´æÆ÷»ùµØÖ· = 0X60000000
- * RAM»ùµØÖ· = 0X60020000 = 0X60000000+2^16*2 = 0X60000000 + 0X20000 = 0X60020000
- * µ±Ñ¡Ôñ²»Í¬µÄµØÖ·ÏßÊ±£¬µØÖ·ÒªÖØĞÂ¼ÆËã¡£
+/* é€‰æ‹©BANK1-BORSRAM1 è¿æ¥ TFTï¼Œåœ°å€èŒƒå›´ä¸º0X60000000~0X63FFFFFF
+ * FSMC_A16 æ¥LCDçš„DC(å¯„å­˜å™¨/æ•°æ®é€‰æ‹©)è„š
+ * 16 bit => FSMC[24:0]å¯¹åº”HADDR[25:1]
+ * å¯„å­˜å™¨åŸºåœ°å€ = 0X60000000
+ * RAMåŸºåœ°å€ = 0X60020000 = 0X60000000+2^16*2 = 0X60000000 + 0X20000 = 0X60020000
+ * å½“é€‰æ‹©ä¸åŒçš„åœ°å€çº¿æ—¶ï¼Œåœ°å€è¦é‡æ–°è®¡ç®—ã€‚
  */
 #define Bank1_LCD_D    ((u32)0x60020000)    //Disp Data ADDR
 #define Bank1_LCD_C    ((u32)0x60000000)	   //Disp Reg ADDR
@@ -31,11 +31,11 @@
 u16 POINT_COLOR = BLACK ;							  // WHITE
 volatile u8 display_direction = 0;
 /*
- * º¯ÊıÃû£ºLCD_GPIO_Config
- * ÃèÊö  £º¸ù¾İFSMCÅäÖÃLCDµÄI/O
- * ÊäÈë  £ºÎŞ
- * Êä³ö  £ºÎŞ
- * µ÷ÓÃ  £ºÄÚ²¿µ÷ÓÃ        
+ * å‡½æ•°åï¼šLCD_GPIO_Config
+ * æè¿°  ï¼šæ ¹æ®FSMCé…ç½®LCDçš„I/O
+ * è¾“å…¥  ï¼šæ— 
+ * è¾“å‡º  ï¼šæ— 
+ * è°ƒç”¨  ï¼šå†…éƒ¨è°ƒç”¨        
  */
 static void LCD_GPIO_Config(void)
 {
@@ -103,11 +103,11 @@ static void LCD_GPIO_Config(void)
 }
 
 /*
- * º¯ÊıÃû£ºLCD_FSMC_Config
- * ÃèÊö  £ºLCD  FSMC Ä£Ê½ÅäÖÃ
- * ÊäÈë  £ºÎŞ
- * Êä³ö  £ºÎŞ
- * µ÷ÓÃ  £ºÄÚ²¿µ÷ÓÃ        
+ * å‡½æ•°åï¼šLCD_FSMC_Config
+ * æè¿°  ï¼šLCD  FSMC æ¨¡å¼é…ç½®
+ * è¾“å…¥  ï¼šæ— 
+ * è¾“å‡º  ï¼šæ— 
+ * è°ƒç”¨  ï¼šå†…éƒ¨è°ƒç”¨        
  */
 
 static void LCD_FSMC_Config(void)
@@ -116,13 +116,13 @@ static void LCD_FSMC_Config(void)
     FSMC_NORSRAMTimingInitTypeDef  p; 
     
     
-    p.FSMC_AddressSetupTime = 0x02;	 //µØÖ·½¨Á¢Ê±¼ä
-    p.FSMC_AddressHoldTime = 0x00;	 //µØÖ·±£³ÖÊ±¼ä
-    p.FSMC_DataSetupTime = 0x05;		 //Êı¾İ½¨Á¢Ê±¼ä
+    p.FSMC_AddressSetupTime = 0x02;	 //åœ°å€å»ºç«‹æ—¶é—´
+    p.FSMC_AddressHoldTime = 0x00;	 //åœ°å€ä¿æŒæ—¶é—´
+    p.FSMC_DataSetupTime = 0x05;		 //æ•°æ®å»ºç«‹æ—¶é—´
     p.FSMC_BusTurnAroundDuration = 0x00;
     p.FSMC_CLKDivision = 0x00;
     p.FSMC_DataLatency = 0x00;
-    p.FSMC_AccessMode = FSMC_AccessMode_B;	 // Ò»°ãÊ¹ÓÃÄ£Ê½BÀ´¿ØÖÆLCD
+    p.FSMC_AccessMode = FSMC_AccessMode_B;	 // ä¸€èˆ¬ä½¿ç”¨æ¨¡å¼Bæ¥æ§åˆ¶LCD
     
     FSMC_NORSRAMInitStructure.FSMC_Bank = FSMC_Bank1_NORSRAM1;
     FSMC_NORSRAMInitStructure.FSMC_DataAddressMux = FSMC_DataAddressMux_Disable;
@@ -152,11 +152,11 @@ static void Delay(__IO u32 nCount)
 
 
 /*
- * º¯ÊıÃû£ºLCD_Rst
- * ÃèÊö  £ºLCD Èí¼ş¸´Î»
- * ÊäÈë  £ºÎŞ
- * Êä³ö  £ºÎŞ
- * µ÷ÓÃ  £ºÄÚ²¿µ÷ÓÃ        
+ * å‡½æ•°åï¼šLCD_Rst
+ * æè¿°  ï¼šLCD è½¯ä»¶å¤ä½
+ * è¾“å…¥  ï¼šæ— 
+ * è¾“å‡º  ï¼šæ— 
+ * è°ƒç”¨  ï¼šå†…éƒ¨è°ƒç”¨        
  */
 static void LCD_Rst(void)
 {			
@@ -170,10 +170,10 @@ static void LCD_Rst(void)
 
 
 /*
- * º¯ÊıÃû£ºLCD_WR_REG
- * ÃèÊö  £ºILI9325 Ğ´¼Ä´æÆ÷º¯Êı
- * ÊäÈë  £º-index ¼Ä´æÆ÷
- * µ÷ÓÃ  £ºÄÚ²¿µ÷ÓÃ
+ * å‡½æ•°åï¼šLCD_WR_REG
+ * æè¿°  ï¼šILI9325 å†™å¯„å­˜å™¨å‡½æ•°
+ * è¾“å…¥  ï¼š-index å¯„å­˜å™¨
+ * è°ƒç”¨  ï¼šå†…éƒ¨è°ƒç”¨
  */
 static __inline void LCD_WR_REG(u16 index)
 {
@@ -183,10 +183,10 @@ static __inline void LCD_WR_REG(u16 index)
 
 
 /*
- * º¯ÊıÃû£ºLCD_WR_REG
- * ÃèÊö  £ºÍùILI9325¼Ä´æÆ÷Ğ´Êı¾İ
- * ÊäÈë  £º-index ¼Ä´æÆ÷
- *         -val   Ğ´ÈëµÄÊı¾İ
+ * å‡½æ•°åï¼šLCD_WR_REG
+ * æè¿°  ï¼šå¾€ILI9325å¯„å­˜å™¨å†™æ•°æ®
+ * è¾“å…¥  ï¼š-index å¯„å­˜å™¨
+ *         -val   å†™å…¥çš„æ•°æ®
  */
 static __inline void LCD_WR_CMD(u16 index, u16 val)
 {	
@@ -197,9 +197,9 @@ static __inline void LCD_WR_CMD(u16 index, u16 val)
 
 
 /*
- * º¯ÊıÃû£ºLCD_WR_Data
- * ÃèÊö  £ºÍùILI9325 GRAM Ğ´ÈëÊı¾İ
- * ÊäÈë  £º-val Ğ´ÈëµÄÊı¾İ,16bit        
+ * å‡½æ•°åï¼šLCD_WR_Data
+ * æè¿°  ï¼šå¾€ILI9325 GRAM å†™å…¥æ•°æ®
+ * è¾“å…¥  ï¼š-val å†™å…¥çš„æ•°æ®,16bit        
  */
 static __inline void LCD_WR_Data(unsigned int val)
 {   
@@ -209,9 +209,9 @@ static __inline void LCD_WR_Data(unsigned int val)
 
 
 /*
- * º¯ÊıÃû£ºLCD_WR_REG
- * ÃèÊö  £º¶Á ILI9325 RAM Êı¾İ
- * Êä³ö  £º¶ÁÈ¡µÄÊı¾İ,16bit *         
+ * å‡½æ•°åï¼šLCD_WR_REG
+ * æè¿°  ï¼šè¯» ILI9325 RAM æ•°æ®
+ * è¾“å‡º  ï¼šè¯»å–çš„æ•°æ®,16bit *         
  */
 static __inline u16 LCD_RD_data(void)
 {
@@ -235,10 +235,10 @@ static __inline u16 LCD_RD_data(void)
 
 
 /*
- *  º¯ÊıÃû£ºRGB
- *  ¹¦ÄÜ£ºRGBÑÕÉ«»ìºÏº¯Êı
- *  ÊäÈë£ºR 0-31,G 0-63,B 0-31
- *  Êä³ö£º»ìºÏºóµÄÑÕÉ«Öµ
+ *  å‡½æ•°åï¼šRGB
+ *  åŠŸèƒ½ï¼šRGBé¢œè‰²æ··åˆå‡½æ•°
+ *  è¾“å…¥ï¼šR 0-31,G 0-63,B 0-31
+ *  è¾“å‡ºï¼šæ··åˆåçš„é¢œè‰²å€¼
  */
 static u16 RGB(u8 R,u8 G,u8 B)
 {	
@@ -253,7 +253,7 @@ void Set_direction(u8 option)
 #ifdef	HX8347
     switch(option)
     {
-    case 0:{	 /*ºáÆÁ*/
+    case 0:{	 /*æ¨ªå±*/
             LCD_WR_CMD(0x16,0X70); // 
             
             LCD_WR_CMD(0x06,0x00);
@@ -271,8 +271,8 @@ void Set_direction(u8 option)
             display_direction = 0;		
         }break;
     case 1:
-        {		/*ÊúÆÁ*/
-        LCD_WR_CMD(0x16,0x50); //×óÉÏµ½ÓÒÏÂ   ÊúÆÁ 				   
+        {		/*ç«–å±*/
+        LCD_WR_CMD(0x16,0x50); //å·¦ä¸Šåˆ°å³ä¸‹   ç«–å± 				   
         LCD_WR_CMD(0x02,0x00);
         LCD_WR_CMD(0x03,0x00); //Column Start
         
@@ -291,38 +291,38 @@ void Set_direction(u8 option)
 #else
     switch(option)
     {
-        //ÒÔÒº¾§ÆÁµÄ½Ó¿Ú¶Ô×¼×Ô¼º
-    case 0:	  LCD_WR_CMD(0x0003,0X1038);break;		//´¹Ö±É¨Ãè
-    case 1:		LCD_WR_CMD(0x0003, 0X1030);break;	 	//Ë®Æ½É¨Ãè 
-    default:	LCD_WR_CMD(0x0003, 0X1018);break;		//´¹Ö±É¨Ãè 
+        //ä»¥æ¶²æ™¶å±çš„æ¥å£å¯¹å‡†è‡ªå·±
+    case 0:	  LCD_WR_CMD(0x0003,0X1038);break;		//å‚ç›´æ‰«æ
+    case 1:		LCD_WR_CMD(0x0003, 0X1030);break;	 	//æ°´å¹³æ‰«æ 
+    default:	LCD_WR_CMD(0x0003, 0X1018);break;		//å‚ç›´æ‰«æ 
     }
     display_direction = 0;
 #endif
 }
 
 
-/*----------------------------------------ÒÔÏÂÎªLCDÓ¦ÓÃº¯Êı----------------------------------------------*/
+/*----------------------------------------ä»¥ä¸‹ä¸ºLCDåº”ç”¨å‡½æ•°----------------------------------------------*/
 
 
 /*
- * º¯ÊıÃû£ºLCD_open_windows
- * ÃèÊö  £º¿ª´°(ÒÔx,yÎª×ø±êÆğµã£¬³¤Îªlen,¸ßÎªwid)
- * ÊäÈë  £º-x -y -len -wid -rgb565
- * Êä³ö  £ºÎŞ
- * ¾ÙÀı:
- *	   LCD_open_windows(0,0,120,160);	 	   //ÓÒÉÏ½Ç  120*160
- *	   LCD_open_windows(0,160,120,160);	   //×óÉÏ½Ç	120*160
- *	   LCD_open_windows(120,0,120,160);	   //ÓÒÏÂ½Ç	 120*160
- *	   LCD_open_windows(120,160,120,160);	   //×óÏÂ½Ç	120*160
+ * å‡½æ•°åï¼šLCD_open_windows
+ * æè¿°  ï¼šå¼€çª—(ä»¥x,yä¸ºåæ ‡èµ·ç‚¹ï¼Œé•¿ä¸ºlen,é«˜ä¸ºwid)
+ * è¾“å…¥  ï¼š-x -y -len -wid -rgb565
+ * è¾“å‡º  ï¼šæ— 
+ * ä¸¾ä¾‹:
+ *	   LCD_open_windows(0,0,120,160);	 	   //å³ä¸Šè§’  120*160
+ *	   LCD_open_windows(0,160,120,160);	   //å·¦ä¸Šè§’	120*160
+ *	   LCD_open_windows(120,0,120,160);	   //å³ä¸‹è§’	 120*160
+ *	   LCD_open_windows(120,160,120,160);	   //å·¦ä¸‹è§’	120*160
  *
  */
 void LCD_open_windows(u16 x,u16 y,u16 len,u16 wid)
 {                    
 #ifdef HX8347
-    if(display_direction == 0)		//Èç¹ûÊÇºáÆÁÑ¡Ïî
+    if(display_direction == 0)		//å¦‚æœæ˜¯æ¨ªå±é€‰é¡¹
     {
-        LCD_WR_CMD(0x02, x>>8);		       //¸ß°ËÎ»
-        LCD_WR_CMD(0x03, x-((x>>8)<<8)); //µÍ°ËÎ»
+        LCD_WR_CMD(0x02, x>>8);		       //é«˜å…«ä½
+        LCD_WR_CMD(0x03, x-((x>>8)<<8)); //ä½å…«ä½
         
         LCD_WR_CMD(0x04, (x+len-1)>>8);
         LCD_WR_CMD(0x05, (x+len-1)-(((x+len-1)>>8)<<8));
@@ -363,15 +363,15 @@ void LCD_open_windows(u16 x,u16 y,u16 len,u16 wid)
 
 
 /*
- * º¯ÊıÃû£ºLCD_draw_rectangle
- * ÃèÊö  £ºÒÔx,yÎª×ø±êÆğµã£¬ÔÚ³¤len,¸ßwidµÄ¾ØĞÎÇøÓòÄÚÃèÉÏÖÆ¶¨µÄrgb565ÑÕÉ«
- * ÊäÈë  £º-x -y -len -wid -rgb565
- * Êä³ö  £ºÎŞ 
- * ¾ÙÀı  :  
- *			LCD_draw_rectangle(0,0,120,160,0XF800);		ÓÒÉÏ½Ç    	120*160	 	REG 
- *	   		LCD_draw_rectangle(0,160,120,160,0X07E0);	 ×óÉÏ½Ç		120*160		GREEN
- *	   		LCD_draw_rectangle(120,0,120,160,0X001F);	 ÓÒÏÂ½Ç		120*160	 	BLUE
- *	   		LCD_draw_rectangle(120,160,120,160,0XFF00);	  ×óÏÂ½Ç	120*160	   	orange
+ * å‡½æ•°åï¼šLCD_draw_rectangle
+ * æè¿°  ï¼šä»¥x,yä¸ºåæ ‡èµ·ç‚¹ï¼Œåœ¨é•¿len,é«˜widçš„çŸ©å½¢åŒºåŸŸå†…æä¸Šåˆ¶å®šçš„rgb565é¢œè‰²
+ * è¾“å…¥  ï¼š-x -y -len -wid -rgb565
+ * è¾“å‡º  ï¼šæ—  
+ * ä¸¾ä¾‹  :  
+ *			LCD_draw_rectangle(0,0,120,160,0XF800);		å³ä¸Šè§’    	120*160	 	REG 
+ *	   		LCD_draw_rectangle(0,160,120,160,0X07E0);	 å·¦ä¸Šè§’		120*160		GREEN
+ *	   		LCD_draw_rectangle(120,0,120,160,0X001F);	 å³ä¸‹è§’		120*160	 	BLUE
+ *	   		LCD_draw_rectangle(120,160,120,160,0XFF00);	  å·¦ä¸‹è§’	120*160	   	orange
  */
 void LCD_draw_rectangle(u16 x,u16 y,u16 len,u16 wid,u16 rgb565)
 {                    
@@ -400,10 +400,10 @@ void LCD_draw_rectangle(u16 x,u16 y,u16 len,u16 wid,u16 rgb565)
 
 
 /*
- * º¯ÊıÃû£ºLCD_CLEAR
- * ÃèÊö  £ºÒÔx,yÎª×ø±êÆğµã£¬ÔÚ³¤len,¸ßwidµÄ·¶Î§ÄÚÇåÆÁ
- * ÊäÈë  £º-x -y -len -wid
- * Êä³ö  £ºÎŞ 
+ * å‡½æ•°åï¼šLCD_CLEAR
+ * æè¿°  ï¼šä»¥x,yä¸ºåæ ‡èµ·ç‚¹ï¼Œåœ¨é•¿len,é«˜widçš„èŒƒå›´å†…æ¸…å±
+ * è¾“å…¥  ï¼š-x -y -len -wid
+ * è¾“å‡º  ï¼šæ—  
  */
 void LCD_CLEAR(u8 x,u16 y,u8 len,u16 wid)
 {                    
@@ -411,9 +411,9 @@ void LCD_CLEAR(u8 x,u16 y,u8 len,u16 wid)
     
     
 #ifdef HX8347
-    if(display_direction ==0) //Èç¹ûºáÆÁ±êÖ¾Î»Îª0(0±íÊ¾ºáÆÁ)
+    if(display_direction ==0) //å¦‚æœæ¨ªå±æ ‡å¿—ä½ä¸º0(0è¡¨ç¤ºæ¨ªå±)
     {
-        /*ºáÆÁ*/
+        /*æ¨ªå±*/
         LCD_WR_CMD(0x06, 0);
         LCD_WR_CMD(0x07, x); 
         
@@ -427,9 +427,9 @@ void LCD_CLEAR(u8 x,u16 y,u8 len,u16 wid)
         LCD_WR_CMD(0x04, (y+wid-1)>>8);
         LCD_WR_CMD(0x05, (y+wid-1)-(((y+wid-1)>>8)<<8));
     }
-    else		 //Èç¹ûºáÆÁ±êÖ¾Î»²»Îª0(²»Îª0±íÊ¾ÊúÆÁ)
+    else		 //å¦‚æœæ¨ªå±æ ‡å¿—ä½ä¸ä¸º0(ä¸ä¸º0è¡¨ç¤ºç«–å±)
     {	
-        /*ÊúÆÁ*/
+        /*ç«–å±*/
         LCD_WR_CMD(0x02, 0);
         LCD_WR_CMD(0x03, x); 
         
@@ -482,11 +482,11 @@ void MY_LCD_WRITE(u16 rgb565)
 
 
 /*
- * º¯ÊıÃû£ºLCD_DrawPoint
- * ÃèÊö  £ºÔÚ×ø±ê(x,y)´¦»­Ò»¸öµã
- * ÊäÈë  £º-x 0~239
+ * å‡½æ•°åï¼šLCD_DrawPoint
+ * æè¿°  ï¼šåœ¨åæ ‡(x,y)å¤„ç”»ä¸€ä¸ªç‚¹
+ * è¾“å…¥  ï¼š-x 0~239
            -y 0~319
- * Êä³ö  £ºÎŞ 
+ * è¾“å‡º  ï¼šæ—  
  */
 void LCD_DrawPoint(u16 x,u16 y)
 {
@@ -517,11 +517,11 @@ void LCD_DrawPoint(u16 x,u16 y)
 
 
 /*
-* º¯ÊıÃû£ºLCD_DrawPoint
-* ÃèÊö  £ºÔÚ×ø±ê(x,y)´¦»­Ò»¸öÖ¸¶¨ÑÕÉ«µÄµã
-* ÊäÈë  £º-x 0~239
+* å‡½æ•°åï¼šLCD_DrawPoint
+* æè¿°  ï¼šåœ¨åæ ‡(x,y)å¤„ç”»ä¸€ä¸ªæŒ‡å®šé¢œè‰²çš„ç‚¹
+* è¾“å…¥  ï¼š-x 0~239
 -y 0~319
-* Êä³ö  £ºÎŞ 
+* è¾“å‡º  ï¼šæ—  
 */
 void LCD_Draw_ColorPoint(u16 x,u16 y, u16 rgb565)
 {
@@ -552,10 +552,10 @@ void LCD_Draw_ColorPoint(u16 x,u16 y, u16 rgb565)
 
 
 /*
- * º¯ÊıÃû£ºLCD_Show_ColorBar
- * ÃèÊö  £ºÏÔÊ¾16Ìõ²Ê´ø
- * ÊäÈë  £ºÎŞ
- * Êä³ö  £ºÎŞ 
+ * å‡½æ•°åï¼šLCD_Show_ColorBar
+ * æè¿°  ï¼šæ˜¾ç¤º16æ¡å½©å¸¦
+ * è¾“å…¥  ï¼šæ— 
+ * è¾“å‡º  ï¼šæ—  
  */
 void LCD_Show_ColorBar(void)
 {
@@ -564,7 +564,7 @@ void LCD_Show_ColorBar(void)
     //
 #else
 		u32 i, j, temp;
-    for(i=0,temp=0; i<16; i++)	 		// ÏÔÊ¾16Ìõ²Ê´ø
+    for(i=0,temp=0; i<16; i++)	 		// æ˜¾ç¤º16æ¡å½©å¸¦
     {		
         for(j=0; j<4800; j++)			 // 4800 = 320*/16*240
         {
@@ -582,7 +582,7 @@ void LCD_SetCursor(uint16_t Xpos,uint16_t Ypos)
 {
     
 #ifdef HX8347
-    //µÈ´ı¼ÓÈë
+    //ç­‰å¾…åŠ å…¥
     
 #else
     LCD_WR_CMD(0x004e,Xpos); 	/* Row */
@@ -596,10 +596,10 @@ void LCD_SetCursor(uint16_t Xpos,uint16_t Ypos)
 
 
 /*
- * º¯ÊıÃû£ºabs
- * ÃèÊö  £ºÇó¾ø¶ÔÖµ
- * ÊäÈë  £º-res   32bit        
- * Êä³ö  £ºÎŞ 
+ * å‡½æ•°åï¼šabs
+ * æè¿°  ï¼šæ±‚ç»å¯¹å€¼
+ * è¾“å…¥  ï¼š-res   32bit        
+ * è¾“å‡º  ï¼šæ—  
  */
 static u32 abs(s32 res)
 {
@@ -612,20 +612,20 @@ static u32 abs(s32 res)
 
 
 /*
- * º¯ÊıÃû£ºLCD_DrawLine
- * ÃèÊö  £ºÔÚÒº¾§ÖĞÒÔ(x1,y1)ÎªÆğµã,(x2,y2)ÎªÖÕµã»­Ò»Ö±Ïß
- * ÊäÈë  £º-x1 0~239
+ * å‡½æ•°åï¼šLCD_DrawLine
+ * æè¿°  ï¼šåœ¨æ¶²æ™¶ä¸­ä»¥(x1,y1)ä¸ºèµ·ç‚¹,(x2,y2)ä¸ºç»ˆç‚¹ç”»ä¸€ç›´çº¿
+ * è¾“å…¥  ï¼š-x1 0~239
            -y1 0~319
 					 -x2 0~239
 					 -y2 0~319       
- * Êä³ö  £ºÎŞ 
+ * è¾“å‡º  ï¼šæ—  
  */  
 void LCD_DrawLine(u8 x1, u16 y1, u8 x2, u16 y2)
 {
     u16 x, y, t;
     if( (x1 == x2) && (y1 == y2) )
         LCD_DrawPoint(x1, y1);
-    else if( abs(y2 - y1) > abs(x2 - x1) )			//Ğ±ÂÊ´óÓÚ1 
+    else if( abs(y2 - y1) > abs(x2 - x1) )			//æ–œç‡å¤§äº1 
     {
         if(y1 > y2) 
         {
@@ -636,17 +636,17 @@ void LCD_DrawLine(u8 x1, u16 y1, u8 x2, u16 y2)
             x1 = x2;
             x2 = t; 
         }
-        for(y=y1; y<y2; y++)									//ÒÔyÖáÎª»ù×¼ 
+        for(y=y1; y<y2; y++)									//ä»¥yè½´ä¸ºåŸºå‡† 
         {
             x = (u32)(y-y1)*(x2-x1) / (y2-y1) + x1;
 #ifdef HX8347
-            /*µ÷ÊÔµÈ´ıµÈ´ı¼ÓÈë*/
+            /*è°ƒè¯•ç­‰å¾…ç­‰å¾…åŠ å…¥*/
 #else
             LCD_DrawPoint(x, y);
 #endif  
         }
     }
-    else     																	//Ğ±ÂÊĞ¡ÓÚµÈÓÚ1 
+    else     																	//æ–œç‡å°äºç­‰äº1 
     {
         if(x1 > x2)
         {
@@ -657,11 +657,11 @@ void LCD_DrawLine(u8 x1, u16 y1, u8 x2, u16 y2)
             x1 = x2;
             x2 = t;
         }   
-        for(x=x1; x<x2; x++)									//ÒÔxÖáÎª»ù×¼ 
+        for(x=x1; x<x2; x++)									//ä»¥xè½´ä¸ºåŸºå‡† 
         {
             y = (u32)(x-x1)*(y2-y1) / (x2-x1) + y1;
 #ifdef HX8347
-            /*µÈ´ı¼ÓÈë*/
+            /*ç­‰å¾…åŠ å…¥*/
 #else
             LCD_DrawPoint(x, y); 
 #endif
@@ -673,20 +673,20 @@ void LCD_DrawLine(u8 x1, u16 y1, u8 x2, u16 y2)
 
 
 /*
- * º¯ÊıÃû  £ºLCD_ShowChar
- * ÃèÊö    £ºÔÚÒº¾§×ø±ê(x,y)ÖĞ,ÏÔÊ¾Ò»¸ö12*6´óĞ¡µÄ×Ö·û
- * ÊäÈë    £º-x 0~(239-6)
+ * å‡½æ•°å  ï¼šLCD_ShowChar
+ * æè¿°    ï¼šåœ¨æ¶²æ™¶åæ ‡(x,y)ä¸­,æ˜¾ç¤ºä¸€ä¸ª12*6å¤§å°çš„å­—ç¬¦
+ * è¾“å…¥    ï¼š-x 0~(239-6)
              -y 0~(319-12)
-						 -mode 0 ÎŞµş¼ÓĞ§¹û
-						       1 ÓĞµş¼ÓĞ§¹û
-      		   -acsii ÒªĞ´ÈëµÄ×Ö·û
- * Êä³ö    £ºÎŞ
- * µ÷ÓÃ·½·¨£ºTFT_ShowChar(10, 10, 'A');
- *           ÄÚ²¿µ÷ÓÃ 
+						 -mode 0 æ— å åŠ æ•ˆæœ
+						       1 æœ‰å åŠ æ•ˆæœ
+      		   -acsii è¦å†™å…¥çš„å­—ç¬¦
+ * è¾“å‡º    ï¼šæ— 
+ * è°ƒç”¨æ–¹æ³•ï¼šTFT_ShowChar(10, 10, 'A');
+ *           å†…éƒ¨è°ƒç”¨ 
  */
 
-/*ĞÂÆÁ--zyq*/
-static void LCD_ShowChar(u8 x, u16 y, u8 mode, u8 acsii)	//ºáÆÁ
+/*æ–°å±--zyq*/
+static void LCD_ShowChar(u8 x, u16 y, u8 mode, u8 acsii)	//æ¨ªå±
 {       
 #define MAX_CHAR_POSX 232
 #define MAX_CHAR_POSY 304 
@@ -705,7 +705,7 @@ static void LCD_ShowChar(u8 x, u16 y, u8 mode, u8 acsii)	//ºáÆÁ
     LCD_WR_CMD(0x04, (y+5)>>8);
     LCD_WR_CMD(0x05, (y+5)-(((y+5)>>8)<<8));
 #else
-    Set_direction(0);	//É¨Ãè·½ÏòÉèÖÃ	 													
+    Set_direction(0);	//æ‰«ææ–¹å‘è®¾ç½®	 													
     LCD_WR_CMD(0x0051, x); 
     LCD_WR_CMD(0x0051, x+11); 
     LCD_WR_CMD(0x0052, y); 
@@ -717,27 +717,27 @@ static void LCD_ShowChar(u8 x, u16 y, u8 mode, u8 acsii)	//ºáÆÁ
     LCD_WR_REG(0X22);
     
     
-    acsii = acsii - ' ';													//µÃµ½Æ«ÒÆºóµÄÖµ
+    acsii = acsii - ' ';													//å¾—åˆ°åç§»åçš„å€¼
     for(pos=0; pos<12; pos++)
     {
         temp = asc2_1206[acsii][pos];
-        for(t=0; t<6; t++)											// µÍÎ»¿ªÊ¼,¶ªÆú¸ßÁ½Î»
+        for(t=0; t<6; t++)											// ä½ä½å¼€å§‹,ä¸¢å¼ƒé«˜ä¸¤ä½
         {                 
             if(temp & 0x01)
                 LCD_WR_Data(POINT_COLOR);
             else 	
             {
                 if ( mode == 0 )
-                    LCD_WR_Data(0xffff);				//°×É«
+                    LCD_WR_Data(0xffff);				//ç™½è‰²
                 else if ( mode == 1 )
                 {
 #ifdef HX8347				
-                    LCD_WR_Data(0xffff);				/*´ıĞŞÕı*/
+                    LCD_WR_Data(0xffff);				/*å¾…ä¿®æ­£*/
 
 #else
-                    /* µş¼ÓĞ§¹û */
-                    LCD_WR_CMD(0X20, x+pos);		//Ë®Æ½ÏÔÊ¾ÇøµØÖ·
-                    LCD_WR_CMD(0X21, y+t);			//´¹Ö±ÏÔÊ¾ÇøµØÖ·
+                    /* å åŠ æ•ˆæœ */
+                    LCD_WR_CMD(0X20, x+pos);		//æ°´å¹³æ˜¾ç¤ºåŒºåœ°å€
+                    LCD_WR_CMD(0X21, y+t);			//å‚ç›´æ˜¾ç¤ºåŒºåœ°å€
                     LCD_WR_REG(0X22); 
                     
                     R_dis_mem =LCD_RD_data();
@@ -753,7 +753,7 @@ static void LCD_ShowChar(u8 x, u16 y, u8 mode, u8 acsii)	//ºáÆÁ
 }
 
 
-static void LCD_ShowChar2(u8 x, u16 y, u8 mode, u8 acsii)	//ÊúÆÁ
+static void LCD_ShowChar2(u8 x, u16 y, u8 mode, u8 acsii)	//ç«–å±
 {       
 #define MAX_CHAR_POSX 232
 #define MAX_CHAR_POSY 304 
@@ -776,7 +776,7 @@ static void LCD_ShowChar2(u8 x, u16 y, u8 mode, u8 acsii)	//ÊúÆÁ
     LCD_WR_CMD(0x09, (y+11)-(((y+11)>>8)<<8));
     
 #else
-    Set_direction(1);																	//É¨Ãè·½ÏòÉèÖÃ
+    Set_direction(1);																	//æ‰«ææ–¹å‘è®¾ç½®
     LCD_WR_CMD(0x0050, x); 
     LCD_WR_CMD(0x0051, x+5); 
     LCD_WR_CMD(0x0052, y); 
@@ -787,7 +787,7 @@ static void LCD_ShowChar2(u8 x, u16 y, u8 mode, u8 acsii)	//ÊúÆÁ
     
     LCD_WR_REG(0X22);
     
-    acsii = acsii - ' ';															//µÃµ½Æ«ÒÆºóµÄÖµ
+    acsii = acsii - ' ';															//å¾—åˆ°åç§»åçš„å€¼
     for(pos=0; pos<12; pos++)
     {
 #ifdef HX8347
@@ -798,22 +798,22 @@ static void LCD_ShowChar2(u8 x, u16 y, u8 mode, u8 acsii)	//ÊúÆÁ
 #else
         temp = asc2_1206[acsii][12-pos];
 #endif
-        for(t=0; t<6; t++)														// µÍÎ»¿ªÊ¼,¶ªÆú¸ßÁ½Î»
+        for(t=0; t<6; t++)														// ä½ä½å¼€å§‹,ä¸¢å¼ƒé«˜ä¸¤ä½
         {                 
             if(temp & 0x01)
                 LCD_WR_Data(POINT_COLOR);
             else 	
             {
                 if ( mode == 0 )
-                    LCD_WR_Data(0xffff);							//°×É«
+                    LCD_WR_Data(0xffff);							//ç™½è‰²
                 else if ( mode == 1 )
                 {
 #ifdef HX8347
-                    LCD_WR_Data(0xffff);					 // HX8347µ÷ÊÔ½×¶Î
+                    LCD_WR_Data(0xffff);					 // HX8347è°ƒè¯•é˜¶æ®µ
 #else
-                    /* µş¼ÓĞ§¹û */				
-                    LCD_WR_CMD(0X20, x+t);					//Ë®Æ½ÏÔÊ¾ÇøµØÖ·
-                    LCD_WR_CMD(0X21, y+pos);				//´¹Ö±ÏÔÊ¾ÇøµØÖ·
+                    /* å åŠ æ•ˆæœ */				
+                    LCD_WR_CMD(0X20, x+t);					//æ°´å¹³æ˜¾ç¤ºåŒºåœ°å€
+                    LCD_WR_CMD(0X21, y+pos);				//å‚ç›´æ˜¾ç¤ºåŒºåœ°å€
                     LCD_WR_REG(0X22); 
                     
                     R_dis_mem =LCD_RD_data();
@@ -830,19 +830,19 @@ static void LCD_ShowChar2(u8 x, u16 y, u8 mode, u8 acsii)	//ÊúÆÁ
 
 
 /*
- * º¯ÊıÃû  £ºLCD_Show_8x16_Char
- * ÃèÊö    £ºÔÚÒº¾§×ø±ê(x,y)ÖĞ,ÏÔÊ¾Ò»¸ö12*6´óĞ¡µÄ×Ö·û
- * ÊäÈë    £º-x 0~(239-6)
+ * å‡½æ•°å  ï¼šLCD_Show_8x16_Char
+ * æè¿°    ï¼šåœ¨æ¶²æ™¶åæ ‡(x,y)ä¸­,æ˜¾ç¤ºä¸€ä¸ª12*6å¤§å°çš„å­—ç¬¦
+ * è¾“å…¥    ï¼š-x 0~(239-6)
              -y 0~(319-12)
-						 -mode 0 ÎŞµş¼ÓĞ§¹û
-						       1 ÓĞµş¼ÓĞ§¹û
-      		   -acsii ÒªĞ´ÈëµÄ×Ö·û
- * Êä³ö    £ºÎŞ
- * µ÷ÓÃ·½·¨£ºTFT_ShowChar(10, 10, 'A');
- *           ÄÚ²¿µ÷ÓÃ 
+						 -mode 0 æ— å åŠ æ•ˆæœ
+						       1 æœ‰å åŠ æ•ˆæœ
+      		   -acsii è¦å†™å…¥çš„å­—ç¬¦
+ * è¾“å‡º    ï¼šæ— 
+ * è°ƒç”¨æ–¹æ³•ï¼šTFT_ShowChar(10, 10, 'A');
+ *           å†…éƒ¨è°ƒç”¨ 
  */ 
 
-void LCD_Show_8x16_Char(u8 x, u16 y, u8 mode, u8 acsii)//ºáÆÁ
+void LCD_Show_8x16_Char(u8 x, u16 y, u8 mode, u8 acsii)//æ¨ªå±
 {       
 #define MAX_CHAR_POSX 232
 #define MAX_CHAR_POSY 304 
@@ -866,7 +866,7 @@ void LCD_Show_8x16_Char(u8 x, u16 y, u8 mode, u8 acsii)//ºáÆÁ
     LCD_WR_CMD(0x05, (y+7)-(((y+7)>>8)<<8));
     
 #else
-    Set_direction(0);														//É¨Ãè·½ÏòÉèÖÃ
+    Set_direction(0);														//æ‰«ææ–¹å‘è®¾ç½®
     LCD_WR_CMD(0x0050, x); 
     LCD_WR_CMD(0x0051, x+15); 
     LCD_WR_CMD(0x0052, y); 
@@ -890,15 +890,15 @@ void LCD_Show_8x16_Char(u8 x, u16 y, u8 mode, u8 acsii)//ºáÆÁ
             else 	
             {
                 if ( mode == 0 )
-                    LCD_WR_Data(0xffff);					//°×É«
+                    LCD_WR_Data(0xffff);					//ç™½è‰²
                 
-                else if ( mode == 1 )				 /*¶ÁÊı¾İÉĞÓĞÎÊÌâ*/
+                else if ( mode == 1 )				 /*è¯»æ•°æ®å°šæœ‰é—®é¢˜*/
                 {
 #ifdef	HX8347 
-                    LCD_WR_Data(0xffff);	 		//HX8347ÉĞÔÚµ÷ÊÔ½×¶Î
+                    LCD_WR_Data(0xffff);	 		//HX8347å°šåœ¨è°ƒè¯•é˜¶æ®µ
 #else
-                    LCD_WR_CMD(0X20, x+pos);		//Ë®Æ½ÏÔÊ¾ÇøµØÖ·
-                    LCD_WR_CMD(0X21, y+t);			//´¹Ö±ÏÔÊ¾ÇøµØÖ·
+                    LCD_WR_CMD(0X20, x+pos);		//æ°´å¹³æ˜¾ç¤ºåŒºåœ°å€
+                    LCD_WR_CMD(0X21, y+t);			//å‚ç›´æ˜¾ç¤ºåŒºåœ°å€
                     LCD_WR_REG(0X22);                    
                     R_dis_mem =LCD_RD_data();
                     LCD_WR_Data(R_dis_mem);
@@ -919,7 +919,7 @@ void LCD_Show_8x16_Char(u8 x, u16 y, u8 mode, u8 acsii)//ºáÆÁ
 
 
 
-void LCD_Show_8x16_Char2(u8 x, u16 y, u8 mode, u8 acsii) //ÊúÆÁ
+void LCD_Show_8x16_Char2(u8 x, u16 y, u8 mode, u8 acsii) //ç«–å±
 {       
 #define MAX_CHAR_POSX 232
 #define MAX_CHAR_POSY 304 
@@ -939,7 +939,7 @@ void LCD_Show_8x16_Char2(u8 x, u16 y, u8 mode, u8 acsii) //ÊúÆÁ
     LCD_WR_CMD(0x08, (y+15)>>8);
     LCD_WR_CMD(0x09, (y+15)-(((y+15)>>8)<<8));
 #else
-    Set_direction(1);		 													//É¨Ãè·½ÏòÉèÖÃ
+    Set_direction(1);		 													//æ‰«ææ–¹å‘è®¾ç½®
     LCD_WR_CMD(0x0050, x); 
     LCD_WR_CMD(0x0051, x+7); 
     LCD_WR_CMD(0x0052, y); 
@@ -963,14 +963,14 @@ void LCD_Show_8x16_Char2(u8 x, u16 y, u8 mode, u8 acsii) //ÊúÆÁ
             else 	
             {
                 if ( mode == 0 )
-                    LCD_WR_Data(0xffff);					//°×É«
+                    LCD_WR_Data(0xffff);					//ç™½è‰²
                 else if ( mode == 1 )
                 {
 #ifdef HX8347
-                    LCD_WR_Data(0xffff);					//	HX8347 µ÷ÊÔ½×¶Î
+                    LCD_WR_Data(0xffff);					//	HX8347 è°ƒè¯•é˜¶æ®µ
 #else
-                    LCD_WR_CMD(0X20, x+t);				//Ë®Æ½ÏÔÊ¾ÇøµØÖ· 
-                    LCD_WR_CMD(0X21, y+pos);			//´¹Ö±ÏÔÊ¾ÇøµØÖ·
+                    LCD_WR_CMD(0X20, x+t);				//æ°´å¹³æ˜¾ç¤ºåŒºåœ°å€ 
+                    LCD_WR_CMD(0X21, y+pos);			//å‚ç›´æ˜¾ç¤ºåŒºåœ°å€
                     
                     LCD_WR_REG(0X22); 
                     R_dis_mem = LCD_RD_data();
@@ -991,18 +991,18 @@ void LCD_Show_8x16_Char2(u8 x, u16 y, u8 mode, u8 acsii) //ÊúÆÁ
 
 
 /*
- * º¯ÊıÃû  £ºLCD_Show_8x16_String
- * ÃèÊö    £ºÔÚÒº¾§×ø±ê(x,y)ÖĞ,ÏÔÊ¾Ò»¸ö16*8´óĞ¡µÄ×Ö·û´®
- * ÊäÈë    £º-x 0~(239-6)
+ * å‡½æ•°å  ï¼šLCD_Show_8x16_String
+ * æè¿°    ï¼šåœ¨æ¶²æ™¶åæ ‡(x,y)ä¸­,æ˜¾ç¤ºä¸€ä¸ª16*8å¤§å°çš„å­—ç¬¦ä¸²
+ * è¾“å…¥    ï¼š-x 0~(239-6)
              -y 0~(319-12)
-						 -mode 0 ÎŞµş¼ÓĞ§¹û
-						       1 ÓĞµş¼ÓĞ§¹û
-      		   -acsii ÒªĞ´ÈëµÄ×Ö·û
- * Êä³ö    £ºÎŞ
- * µ÷ÓÃ·½·¨£ºLCD_Show_8x16_String(130, 130, 1, "Runing");
- *          Íâ²¿µ÷ÓÃ
+						 -mode 0 æ— å åŠ æ•ˆæœ
+						       1 æœ‰å åŠ æ•ˆæœ
+      		   -acsii è¦å†™å…¥çš„å­—ç¬¦
+ * è¾“å‡º    ï¼šæ— 
+ * è°ƒç”¨æ–¹æ³•ï¼šLCD_Show_8x16_String(130, 130, 1, "Runing");
+ *          å¤–éƒ¨è°ƒç”¨
  */ 
-void LCD_Show_8x16_String(u16 y, u8 x, u8 mode, u8 *str)	 //ºáÆÁ
+void LCD_Show_8x16_String(u16 y, u8 x, u8 mode, u8 *str)	 //æ¨ªå±
 {
     u8* tmp_str = str;
     u8 Tmp_y=y;
@@ -1019,18 +1019,18 @@ void LCD_Show_8x16_String(u16 y, u8 x, u8 mode, u8 *str)	 //ºáÆÁ
 
 
 /*
- * º¯ÊıÃû  £ºLCD_Show_8x16_String
- * ÃèÊö    £ºÔÚÒº¾§×ø±ê(x,y)ÖĞ,ÏÔÊ¾Ò»¸ö16*8´óĞ¡µÄ×Ö·û´®
- * ÊäÈë    £º-x 0~(239-8)
+ * å‡½æ•°å  ï¼šLCD_Show_8x16_String
+ * æè¿°    ï¼šåœ¨æ¶²æ™¶åæ ‡(x,y)ä¸­,æ˜¾ç¤ºä¸€ä¸ª16*8å¤§å°çš„å­—ç¬¦ä¸²
+ * è¾“å…¥    ï¼š-x 0~(239-8)
              -y 0~(319-16)
-						 -mode 0 ÎŞµş¼ÓĞ§¹û
-						       1 ÓĞµş¼ÓĞ§¹û
-      		   -acsii ÒªĞ´ÈëµÄ×Ö·û
- * Êä³ö    £ºÎŞ
- * µ÷ÓÃ·½·¨£ºLCD_Show_8x16_String2(130, 130, 1, "Runing");
- *          Íâ²¿µ÷ÓÃ
+						 -mode 0 æ— å åŠ æ•ˆæœ
+						       1 æœ‰å åŠ æ•ˆæœ
+      		   -acsii è¦å†™å…¥çš„å­—ç¬¦
+ * è¾“å‡º    ï¼šæ— 
+ * è°ƒç”¨æ–¹æ³•ï¼šLCD_Show_8x16_String2(130, 130, 1, "Runing");
+ *          å¤–éƒ¨è°ƒç”¨
  */
-void LCD_Show_8x16_String2(u8 x, u16 y, u8 mode, u8 *str)	 //ÊúÆÁ
+void LCD_Show_8x16_String2(u8 x, u16 y, u8 mode, u8 *str)	 //ç«–å±
 {
     u8* tmp_str = str;
     u8 Tmp_y=y;
@@ -1046,7 +1046,7 @@ void LCD_Show_8x16_String2(u8 x, u16 y, u8 mode, u8 *str)	 //ÊúÆÁ
 
 
 
-//m^nº¯Êı
+//m^nå‡½æ•°
 static u32 mypow(u8 m, u8 n)
 {
     u32 result = 1;	 
@@ -1058,15 +1058,15 @@ static u32 mypow(u8 m, u8 n)
 
 
 /*
- * º¯ÊıÃû  £ºLCD_ShowNum
- * ÃèÊö    £ºÔÚÒº¾§×ø±ê(x,y)ÖĞ,ÏÔÊ¾Ò»¸ö12*6´óĞ¡µÄÊı
- * ÊäÈë    £º-x 0~(239-6)
+ * å‡½æ•°å  ï¼šLCD_ShowNum
+ * æè¿°    ï¼šåœ¨æ¶²æ™¶åæ ‡(x,y)ä¸­,æ˜¾ç¤ºä¸€ä¸ª12*6å¤§å°çš„æ•°
+ * è¾“å…¥    ï¼š-x 0~(239-6)
  *           -y 0~(319-12)
- *					 -mode 0 ÎŞµş¼ÓĞ§¹û
- *						     1 ÓĞµş¼ÓĞ§¹û
+ *					 -mode 0 æ— å åŠ æ•ˆæœ
+ *						     1 æœ‰å åŠ æ•ˆæœ
  *     		   -num 0~65535
- * Êä³ö    £ºÎŞ
- * µ÷ÓÃ·½·¨£ºLCD_ShowNum(10, 10, 0, 65535); 
+ * è¾“å‡º    ï¼šæ— 
+ * è°ƒç”¨æ–¹æ³•ï¼šLCD_ShowNum(10, 10, 0, 65535); 
  */  
 void LCD_ShowNum(u8 x,u16 y, u8 mode, u32 num)
 {      
@@ -1075,13 +1075,13 @@ void LCD_ShowNum(u8 x,u16 y, u8 mode, u32 num)
     res = num;
     if( !num )
         LCD_ShowChar(x, y, mode, '0');
-    while( res )  //µÃµ½Êı×Ö³¤¶È
+    while( res )  //å¾—åˆ°æ•°å­—é•¿åº¦
     {
         res/=10;
         t++;
     }
     t1 = t;
-    while(t)	//ÏÔÊ¾Êı×Ö
+    while(t)	//æ˜¾ç¤ºæ•°å­—
     {
         res = mypow(10, t-1); 	 
         LCD_ShowChar(x, y+(t1-t)*6, mode, (num/res)%10+'0');
@@ -1092,28 +1092,28 @@ void LCD_ShowNum(u8 x,u16 y, u8 mode, u32 num)
 
 
 /*
- * º¯ÊıÃû  £ºLCD_ShowString
- * ÃèÊö    £ºÔÚÒº¾§ÖĞ´Ó×ø±ê(x,y)¿ªÊ¼ÏÔÊ¾×Ö·û´®
- * ÊäÈë    £º -y	0~(319-12)
+ * å‡½æ•°å  ï¼šLCD_ShowString
+ * æè¿°    ï¼šåœ¨æ¶²æ™¶ä¸­ä»åæ ‡(x,y)å¼€å§‹æ˜¾ç¤ºå­—ç¬¦ä¸²
+ * è¾“å…¥    ï¼š -y	0~(319-12)
  *						-x 	0~(239-6)
- *           -mode 0 ÎŞµş¼ÓĞ§¹û
- *                 1 ÓĞµş¼ÓĞ§¹û
- *     		   -p Ö¸ÏòÒªĞ´ÈëÒº¾§µÄ×Ö·û´®
- * Êä³ö    £ºÎŞ
- * µ÷ÓÃ·½·¨£ºLCD_ShowString(10, 10, 0, ¡°I LOVE STM32¡±); 
+ *           -mode 0 æ— å åŠ æ•ˆæœ
+ *                 1 æœ‰å åŠ æ•ˆæœ
+ *     		   -p æŒ‡å‘è¦å†™å…¥æ¶²æ™¶çš„å­—ç¬¦ä¸²
+ * è¾“å‡º    ï¼šæ— 
+ * è°ƒç”¨æ–¹æ³•ï¼šLCD_ShowString(10, 10, 0, â€œI LOVE STM32â€); 
  */
-void LCD_ShowString(u16 y,u8 x, u8 mode, const u8 *p)	 //ºáÆÁ
+void LCD_ShowString(u16 y,u8 x, u8 mode, const u8 *p)	 //æ¨ªå±
 {    
 		Set_direction(0);     
     while(*p != '\0')
     {       
         if(x > MAX_CHAR_POSX) 
-        {	// »»ĞĞ
+        {	// æ¢è¡Œ
             x = 0;
             y += 12;
         }
         if(y > MAX_CHAR_POSY) 
-        {	// Ò»ÆÁ
+        {	// ä¸€å±
             y = x = 0;
             LCD_CLEAR(0,0,240,320);
         }
@@ -1125,27 +1125,27 @@ void LCD_ShowString(u16 y,u8 x, u8 mode, const u8 *p)	 //ºáÆÁ
 }
 
 /*
- * º¯ÊıÃû  £ºLCD_ShowString
- * ÃèÊö    £ºÔÚÒº¾§ÖĞ´Ó×ø±ê(x,y)¿ªÊ¼ÏÔÊ¾×Ö·û´®
- * ÊäÈë    £º-x 0~(239-6)
+ * å‡½æ•°å  ï¼šLCD_ShowString
+ * æè¿°    ï¼šåœ¨æ¶²æ™¶ä¸­ä»åæ ‡(x,y)å¼€å§‹æ˜¾ç¤ºå­—ç¬¦ä¸²
+ * è¾“å…¥    ï¼š-x 0~(239-6)
  *           -y 0~(319-12)
- *           -mode 0 ÎŞµş¼ÓĞ§¹û
- *                 1 ÓĞµş¼ÓĞ§¹û
- *     		   -p Ö¸ÏòÒªĞ´ÈëÒº¾§µÄ×Ö·û´®
- * Êä³ö    £ºÎŞ
- * µ÷ÓÃ·½·¨£ºLCD_ShowString(10, 10, 0, ¡°I LOVE STM32¡±); 
+ *           -mode 0 æ— å åŠ æ•ˆæœ
+ *                 1 æœ‰å åŠ æ•ˆæœ
+ *     		   -p æŒ‡å‘è¦å†™å…¥æ¶²æ™¶çš„å­—ç¬¦ä¸²
+ * è¾“å‡º    ï¼šæ— 
+ * è°ƒç”¨æ–¹æ³•ï¼šLCD_ShowString(10, 10, 0, â€œI LOVE STM32â€); 
  */
-void LCD_ShowString2(u8 x, u16 y, u8 mode, const u8 *p)	//ÊúÆÁ
+void LCD_ShowString2(u8 x, u16 y, u8 mode, const u8 *p)	//ç«–å±
 {   Set_direction(1);      
     while(*p != '\0')
     {       
         if(x > MAX_CHAR_POSX) 
-        {	// »»ĞĞ
+        {	// æ¢è¡Œ
             x = 0;
             y += 12;
         }
         if(y > MAX_CHAR_POSY) 
-        {	// Ò»ÆÁ
+        {	// ä¸€å±
             y = x = 0;
             LCD_CLEAR(0,0,240,320);
         }
@@ -1160,28 +1160,28 @@ void LCD_ShowString2(u8 x, u16 y, u8 mode, const u8 *p)	//ÊúÆÁ
 
 /******************************************************************************
 * Function Name  : PutChinese1
-* Description    : ½«LcdÆÁÉÏÈÎÒâÎ»ÖÃÏÔÊ¾Ò»¸öÖĞÎÄ×Ö
-* Input          : - Xpos: Ë®Æ½×ø±ê 
-*                  - Ypos: ´¹Ö±×ø±ê  
-*				   - str: ÏÔÊ¾µÄÖĞÎÄ×Ö
-*				   - Color: ×Ö·ûÑÕÉ«   
-*				   - bkColor: ±³¾°ÑÕÉ« 
+* Description    : å°†Lcdå±ä¸Šä»»æ„ä½ç½®æ˜¾ç¤ºä¸€ä¸ªä¸­æ–‡å­—
+* Input          : - Xpos: æ°´å¹³åæ ‡ 
+*                  - Ypos: å‚ç›´åæ ‡  
+*				   - str: æ˜¾ç¤ºçš„ä¸­æ–‡å­—
+*				   - Color: å­—ç¬¦é¢œè‰²   
+*				   - bkColor: èƒŒæ™¯é¢œè‰² 
 * Output         : None
 * Return         : None
-* example		 : PutChinese1(200,100,"ÔÆ",0,0xffff);
-* Attention		 : ÄÚ²¿µ÷ÓÃ
+* example		 : PutChinese1(200,100,"äº‘",0,0xffff);
+* Attention		 : å†…éƒ¨è°ƒç”¨
 *******************************************************************************/
-void PutChinese11(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16_t bkColor)	//ºáÆÁ
+void PutChinese11(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16_t bkColor)	//æ¨ªå±
 {
     
-#ifndef NO_CHNISEST_DISPLAY   //Èç¹ûºº×ÖÏÔÊ¾¹¦ÄÜÃ»ÓĞ¹Ø±Õ
+#ifndef NO_CHNISEST_DISPLAY   //å¦‚æœæ±‰å­—æ˜¾ç¤ºåŠŸèƒ½æ²¡æœ‰å…³é—­
     
     uint8_t i,j;
     uint8_t buffer[32];
     uint16_t tmp_char=0;
     
     
-   GetGBKCode_from_sd(buffer,str);  /* È¡×ÖÄ£Êı¾İ */
+   GetGBKCode_from_sd(buffer,str);  /* å–å­—æ¨¡æ•°æ® */
     
     for (i=0;i<16;i++)
     {
@@ -1206,28 +1206,28 @@ void PutChinese11(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16
 
 /******************************************************************************
 * Function Name  : PutChinese1
-* Description    : ½«LcdÆÁÉÏÈÎÒâÎ»ÖÃÏÔÊ¾Ò»¸öÖĞÎÄ×Ö
-* Input          : - Xpos: Ë®Æ½×ø±ê 
-*                  - Ypos: ´¹Ö±×ø±ê  
-*				   - str: ÏÔÊ¾µÄÖĞÎÄ×Ö
-*				   - Color: ×Ö·ûÑÕÉ«   
-*				   - bkColor: ±³¾°ÑÕÉ« 
+* Description    : å°†Lcdå±ä¸Šä»»æ„ä½ç½®æ˜¾ç¤ºä¸€ä¸ªä¸­æ–‡å­—
+* Input          : - Xpos: æ°´å¹³åæ ‡ 
+*                  - Ypos: å‚ç›´åæ ‡  
+*				   - str: æ˜¾ç¤ºçš„ä¸­æ–‡å­—
+*				   - Color: å­—ç¬¦é¢œè‰²   
+*				   - bkColor: èƒŒæ™¯é¢œè‰² 
 * Output         : None
 * Return         : None
-* example		 : PutChinese1(200,100,"ÔÆ",0,0xffff);
-* Attention		 : ÄÚ²¿µ÷ÓÃ
+* example		 : PutChinese1(200,100,"äº‘",0,0xffff);
+* Attention		 : å†…éƒ¨è°ƒç”¨
 *******************************************************************************/
-void PutChinese12(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16_t bkColor)//ÊúÆÁ
+void PutChinese12(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16_t bkColor)//ç«–å±
 {
     
-#ifndef NO_CHNISEST_DISPLAY   //Èç¹ûºº×ÖÏÔÊ¾¹¦ÄÜÃ»ÓĞ¹Ø±Õ
+#ifndef NO_CHNISEST_DISPLAY   //å¦‚æœæ±‰å­—æ˜¾ç¤ºåŠŸèƒ½æ²¡æœ‰å…³é—­
     
     uint8_t i,j;
     uint8_t buffer[32];
     uint16_t tmp_char=0;
     
     Set_direction(1);
-   	GetGBKCode_from_sd(buffer,str);	 /* È¡×ÖÄ£Êı¾İ */
+   	GetGBKCode_from_sd(buffer,str);	 /* å–å­—æ¨¡æ•°æ® */
 #ifdef HX8347
     for (i=0;i<16;i++)
     {
@@ -1272,25 +1272,25 @@ void PutChinese12(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16
 
 
 /******************************************************
- * º¯ÊıÃû£ºPutChinese21
- * ÃèÊö  £ºÏÔÊ¾µ¥¸öºº×Ö×Ö·û´®
- * ÊäÈë  : pos: 0~(319-16)
+ * å‡½æ•°åï¼šPutChinese21
+ * æè¿°  ï¼šæ˜¾ç¤ºå•ä¸ªæ±‰å­—å­—ç¬¦ä¸²
+ * è¾“å…¥  : pos: 0~(319-16)
  *         Ypos: 0~(239-16)
- *				 str: ÖĞÎÄ×Ö·û´®Ê×Ö·
- *				 Color: ×Ö·ûÑÕÉ«   
- *				 mode: 0--ÎÄ×Ö±³¾°É«Îª°×É«   
- *						   1--ÎÄ×ÖĞü¸¡ 
- * Êä³ö  £ºÎŞ
- * ¾ÙÀı  £ºPutChinese21(200,100,"ºÃ",0,0);
- * ×¢Òâ	 £ºÈç¹ûÊäÈë´óÓÚ1µÄºº×Ö×Ö·û´®£¬ÏÔÊ¾½«»á½Ø¶Ï£¬Ö»ÏÔÊ¾×îÇ°ÃæÒ»¸öºº×Ö
+ *				 str: ä¸­æ–‡å­—ç¬¦ä¸²é¦–å€
+ *				 Color: å­—ç¬¦é¢œè‰²   
+ *				 mode: 0--æ–‡å­—èƒŒæ™¯è‰²ä¸ºç™½è‰²   
+ *						   1--æ–‡å­—æ‚¬æµ® 
+ * è¾“å‡º  ï¼šæ— 
+ * ä¸¾ä¾‹  ï¼šPutChinese21(200,100,"å¥½",0,0);
+ * æ³¨æ„	 ï¼šå¦‚æœè¾“å…¥å¤§äº1çš„æ±‰å­—å­—ç¬¦ä¸²ï¼Œæ˜¾ç¤ºå°†ä¼šæˆªæ–­ï¼Œåªæ˜¾ç¤ºæœ€å‰é¢ä¸€ä¸ªæ±‰å­—
  *********************************************************/    
-void PutChinese21(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode) //ºáÆÁ
+void PutChinese21(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode) //æ¨ªå±
 {
     uint8_t i,j;
     uint8_t buffer[32];
     uint16_t tmp_char=0;
     Set_direction(0);   
-    GetGBKCode_from_sd(buffer,str); /* È¡×ÖÄ£Êı¾İ */
+    GetGBKCode_from_sd(buffer,str); /* å–å­—æ¨¡æ•°æ® */
     
     for (i=0;i<16;i++)
     {
@@ -1306,10 +1306,10 @@ void PutChinese21(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mod
             else
             {
                 if ( mode == 0 )
-                    LCD_Draw_ColorPoint(Ypos+i,Xpos+j,0xffff);	//±³¾°É«ÏÔÊ¾°×É«
+                    LCD_Draw_ColorPoint(Ypos+i,Xpos+j,0xffff);	//èƒŒæ™¯è‰²æ˜¾ç¤ºç™½è‰²
                 else if ( mode == 1 )
                 {
-                    //²»Ğ´Èë
+                    //ä¸å†™å…¥
                 }               
                 
             }
@@ -1322,27 +1322,27 @@ void PutChinese21(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mod
 
 /******************************************************************************
 * Function Name  : PutChinese22
-* Description    : ½«LcdÆÁÉÏÈÎÒâÎ»ÖÃÏÔÊ¾Ò»¸öÖĞÎÄ×Ö
-* Input          : - Xpos: Ë®Æ½×ø±ê 
-*                  - Ypos: ´¹Ö±×ø±ê  
-*				   - str: ÏÔÊ¾µÄÖĞÎÄ×Ö
-*				   - Color: ×Ö·ûÑÕÉ«   
-*				   - mode: Ä£Ê½Ñ¡Ôñ		0--±³¾°É«Îª°×É«   1--ÎÄ×ÖĞü¸¡
+* Description    : å°†Lcdå±ä¸Šä»»æ„ä½ç½®æ˜¾ç¤ºä¸€ä¸ªä¸­æ–‡å­—
+* Input          : - Xpos: æ°´å¹³åæ ‡ 
+*                  - Ypos: å‚ç›´åæ ‡  
+*				   - str: æ˜¾ç¤ºçš„ä¸­æ–‡å­—
+*				   - Color: å­—ç¬¦é¢œè‰²   
+*				   - mode: æ¨¡å¼é€‰æ‹©		0--èƒŒæ™¯è‰²ä¸ºç™½è‰²   1--æ–‡å­—æ‚¬æµ®
 * Output         : None
 * Return         : None
-* example		 : PutChinese2(200,100,"ÔÆ",0,1);
-* Attention		 : ÄÚ²¿µ÷ÓÃ
+* example		 : PutChinese2(200,100,"äº‘",0,1);
+* Attention		 : å†…éƒ¨è°ƒç”¨
 *******************************************************************************/
-void PutChinese22(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode) //ÊúÆÁ
+void PutChinese22(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode) //ç«–å±
 {
     
-#ifndef NO_CHNISEST_DISPLAY   //Èç¹ûºº×ÖÏÔÊ¾¹¦ÄÜÃ»ÓĞ¹Ø±Õ
+#ifndef NO_CHNISEST_DISPLAY   //å¦‚æœæ±‰å­—æ˜¾ç¤ºåŠŸèƒ½æ²¡æœ‰å…³é—­
     
     uint8_t i,j;
     uint8_t buffer[32];
     uint16_t tmp_char=0;
     Set_direction(1);
-    GetGBKCode_from_sd(buffer,str);  																		/* È¡×ÖÄ£Êı¾İ */
+    GetGBKCode_from_sd(buffer,str);  																		/* å–å­—æ¨¡æ•°æ® */
    
     if(display_direction ==0)
     {
@@ -1361,10 +1361,10 @@ void PutChinese22(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mod
                 else
                 {
                     if ( mode == 0 )
-                        LCD_Draw_ColorPoint(Ypos+j,Xpos+i,0xffff);	//±³¾°É«ÏÔÊ¾°×É«
+                        LCD_Draw_ColorPoint(Ypos+j,Xpos+i,0xffff);	//èƒŒæ™¯è‰²æ˜¾ç¤ºç™½è‰²
                     else if ( mode == 1 )
                     {
-                        //²»Ğ´Èë
+                        //ä¸å†™å…¥
                     }	
                     
                     
@@ -1390,10 +1390,10 @@ void PutChinese22(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mod
                 else
                 {
                     if ( mode == 0 )
-                        LCD_Draw_ColorPoint(Xpos+i,Ypos+j,0xffff);	//±³¾°É«ÏÔÊ¾°×É«
+                        LCD_Draw_ColorPoint(Xpos+i,Ypos+j,0xffff);	//èƒŒæ™¯è‰²æ˜¾ç¤ºç™½è‰²
                     else if ( mode == 1 )
                     {
-                        //²»Ğ´Èë
+                        //ä¸å†™å…¥
                     }	
                     
                     
@@ -1411,19 +1411,19 @@ void PutChinese22(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mod
 
 /******************************************************************************
 * Function Name  : PutChinese_strings1
-* Description    : ½«LcdÆÁÉÏÈÎÒâÎ»ÖÃÏÔÊ¾Ò»¸öÖĞÎÄ×Ö
+* Description    : å°†Lcdå±ä¸Šä»»æ„ä½ç½®æ˜¾ç¤ºä¸€ä¸ªä¸­æ–‡å­—
 * Input          : - Xpos: 0-(319-16) 	 
 *                  - Ypos: 0-(239-16)  
-*				   - str: ÏÔÊ¾µÄÖĞÎÄ×Ö·û´®
-*				   - Color: ×Ö·ûÑÕÉ«   
-*				   - bkColor: ±³¾°ÑÕÉ« 
+*				   - str: æ˜¾ç¤ºçš„ä¸­æ–‡å­—ç¬¦ä¸²
+*				   - Color: å­—ç¬¦é¢œè‰²   
+*				   - bkColor: èƒŒæ™¯é¢œè‰² 
 * Output         : None
 * Return         : None
-* example		 : PutChinese_strings11(200,100,"ºÃÈË",0,0xffff);
-				   PutChinese_strings11(200,150,"»µÈË",0xff,0xffff);
-* Attention		 : Íâ²¿µ÷ÓÃ
+* example		 : PutChinese_strings11(200,100,"å¥½äºº",0,0xffff);
+				   PutChinese_strings11(200,150,"åäºº",0xff,0xffff);
+* Attention		 : å¤–éƒ¨è°ƒç”¨
 *******************************************************************************/
-void PutChinese_strings11(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16_t bkColor)	//ºáÆÁ
+void PutChinese_strings11(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16_t bkColor)	//æ¨ªå±
 {
     
     uint16_t Tmp_x, Tmp_y;
@@ -1449,19 +1449,19 @@ void PutChinese_strings11(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Colo
 
 /******************************************************************************
 * Function Name  : PutChinese_strings12
-* Description    : ½«LcdÆÁÉÏÈÎÒâÎ»ÖÃÏÔÊ¾Ò»¸öÖĞÎÄ×Ö
+* Description    : å°†Lcdå±ä¸Šä»»æ„ä½ç½®æ˜¾ç¤ºä¸€ä¸ªä¸­æ–‡å­—
 * Input          : - Xpos: 0-(239-16)
 *                  - Ypos: 0-(319-16)
-*				   - str: ÏÔÊ¾µÄÖĞÎÄ×Ö·û´®
-*				   - Color: ×Ö·ûÑÕÉ«   
-*				   - bkColor: ±³¾°ÑÕÉ« 
+*				   - str: æ˜¾ç¤ºçš„ä¸­æ–‡å­—ç¬¦ä¸²
+*				   - Color: å­—ç¬¦é¢œè‰²   
+*				   - bkColor: èƒŒæ™¯é¢œè‰² 
 * Output         : None
 * Return         : None
-* example		 : PutChinese_strings1(200,100,"ºÃÈË",0,0xffff);
-				   PutChinese_strings1(200,150,"»µÈË",0xff,0xffff);
-* Attention		 : Íâ²¿µ÷ÓÃ
+* example		 : PutChinese_strings1(200,100,"å¥½äºº",0,0xffff);
+				   PutChinese_strings1(200,150,"åäºº",0xff,0xffff);
+* Attention		 : å¤–éƒ¨è°ƒç”¨
 *******************************************************************************/
-void PutChinese_strings12(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16_t bkColor)	//ÊúÆÁ
+void PutChinese_strings12(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,uint16_t bkColor)	//ç«–å±
 {
     
     uint16_t Tmp_x, Tmp_y;
@@ -1484,19 +1484,19 @@ void PutChinese_strings12(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Colo
 
 
 /******************************************************
- * º¯ÊıÃû£ºPutChinese_strings21
- * ÃèÊö  £ºÏÔÊ¾ºº×Ö×Ö·û´®
- * ÊäÈë  : pos: 0~(319-16)
+ * å‡½æ•°åï¼šPutChinese_strings21
+ * æè¿°  ï¼šæ˜¾ç¤ºæ±‰å­—å­—ç¬¦ä¸²
+ * è¾“å…¥  : pos: 0~(319-16)
  *         Ypos: 0~(239-16)
- *				 str: ÖĞÎÄ×Ö·û´®Ê×Ö·
- *				 Color: ×Ö·ûÑÕÉ«   
- *				 mode: 0--ÎÄ×Ö±³¾°É«Îª°×É«   
- *						   1--ÎÄ×ÖĞü¸¡ 
- * Êä³ö  £ºÎŞ
- * ¾ÙÀı  £ºPutChinese_strings2(200,100,"ºÃÈË",0,0);
- * ×¢Òâ	 £ºÎŞ
+ *				 str: ä¸­æ–‡å­—ç¬¦ä¸²é¦–å€
+ *				 Color: å­—ç¬¦é¢œè‰²   
+ *				 mode: 0--æ–‡å­—èƒŒæ™¯è‰²ä¸ºç™½è‰²   
+ *						   1--æ–‡å­—æ‚¬æµ® 
+ * è¾“å‡º  ï¼šæ— 
+ * ä¸¾ä¾‹  ï¼šPutChinese_strings2(200,100,"å¥½äºº",0,0);
+ * æ³¨æ„	 ï¼šæ— 
  *********************************************************/    
-void PutChinese_strings21(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode)	//ºáÆÁ
+void PutChinese_strings21(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode)	//æ¨ªå±
 {
     
     uint16_t Tmp_x, Tmp_y;
@@ -1517,19 +1517,19 @@ void PutChinese_strings21(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Colo
 
 /******************************************************************************
 * Function Name  : PutChinese_strings22
-* Description    : ½«LcdÆÁÉÏÈÎÒâÎ»ÖÃÏÔÊ¾Ò»¸öÖĞÎÄ×Ö	 
+* Description    : å°†Lcdå±ä¸Šä»»æ„ä½ç½®æ˜¾ç¤ºä¸€ä¸ªä¸­æ–‡å­—	 
 * Input          : - Xpos: 0~(239-16)
 *                  - Ypos: 0~(319-16)
-*				   - str: ÏÔÊ¾µÄÖĞÎÄ×Ö·û´®
-*				   - Color: ×Ö·ûÑÕÉ«   
-*				   - mode: ±³¾°Ä£Ê½Ñ¡Ôñ  0--ÎÄ×Ö±³¾°É«Îª°×É«   1--ÎÄ×ÖĞü¸¡ 
+*				   - str: æ˜¾ç¤ºçš„ä¸­æ–‡å­—ç¬¦ä¸²
+*				   - Color: å­—ç¬¦é¢œè‰²   
+*				   - mode: èƒŒæ™¯æ¨¡å¼é€‰æ‹©  0--æ–‡å­—èƒŒæ™¯è‰²ä¸ºç™½è‰²   1--æ–‡å­—æ‚¬æµ® 
 * Output         : None
 * Return         : None
-* example		 : PutChinese_strings2(200,100,"ºÃÈË",0,0);
-				   		 PutChinese_strings2(200,150,"»µÈË",0,1);
-* Attention		 : Íâ²¿µ÷ÓÃ
+* example		 : PutChinese_strings2(200,100,"å¥½äºº",0,0);
+				   		 PutChinese_strings2(200,150,"åäºº",0,1);
+* Attention		 : å¤–éƒ¨è°ƒç”¨
 */
-void PutChinese_strings22(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode) //ÊúÆÁ
+void PutChinese_strings22(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode) //ç«–å±
 {    
     uint16_t Tmp_x, Tmp_y;
     uint8_t *tmp_str=str;
@@ -1546,13 +1546,13 @@ void PutChinese_strings22(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Colo
 }
 
 /* 
- * º¯ÊıÃû£ºPut_ascii_chinese_string
- * ÃèÊö  £ºÖĞÓ¢ÎÄ»ìºÏÏÔÊ¾£¬Ó¢ÎÄ´óĞ¡Îª16*8
- * ÊäÈë  £º-Xpos  x ×ø±ê
- *         -Ypos  y ×ø±ê
- *         -str   ÎÄ×ÖĞÅÏ¢Ö¸Õë
- *         -Color ÎÄ×ÖÑÕÉ«
- *         -mode  ÏÔÊ¾Ä£Ê½£º0 µş¼Ó£¬1 Ğü¸¡
+ * å‡½æ•°åï¼šPut_ascii_chinese_string
+ * æè¿°  ï¼šä¸­è‹±æ–‡æ··åˆæ˜¾ç¤ºï¼Œè‹±æ–‡å¤§å°ä¸º16*8
+ * è¾“å…¥  ï¼š-Xpos  x åæ ‡
+ *         -Ypos  y åæ ‡
+ *         -str   æ–‡å­—ä¿¡æ¯æŒ‡é’ˆ
+ *         -Color æ–‡å­—é¢œè‰²
+ *         -mode  æ˜¾ç¤ºæ¨¡å¼ï¼š0 å åŠ ï¼Œ1 æ‚¬æµ®
  */
 void Put_ascii_chinese_string(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t Color,u8 mode)
 {
@@ -1571,9 +1571,9 @@ void Put_ascii_chinese_string(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t 
 				}
 				else
 				{
-					if(*tmp_str==163)																//163-172 ÊÇÖĞÎÄ¶ººÅ	 163-187ÊÇÖĞÎÄ·ÖºÅ
+					if(*tmp_str==163)																//163-172 æ˜¯ä¸­æ–‡é€—å·	 163-187æ˜¯ä¸­æ–‡åˆ†å·
 					{
-						LCD_Show_8x16_Char2(Tmp_x,Tmp_y,mode, ' ');		//¸ÄÎªÏÔÊ¾1¸ö¿Õ¸ñ
+						LCD_Show_8x16_Char2(Tmp_x,Tmp_y,mode, ' ');		//æ”¹ä¸ºæ˜¾ç¤º1ä¸ªç©ºæ ¼
 						tmp_str += 2 ;
 						Tmp_x	+= 8 ;
 
@@ -1585,17 +1585,17 @@ void Put_ascii_chinese_string(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t 
     }
 }
 
-/*----------------------------------BMPÓ¦ÓÃº¯Êı start-------------------------------*/
+/*----------------------------------BMPåº”ç”¨å‡½æ•° start-------------------------------*/
 /*
- * º¯ÊıÃû  £ºLCD_ShowBmp
- * ÃèÊö    £ºÏÔÊ¾lenth*wideµÄ16Î»Õæ²ÊÍ¼Æ¬
- * ÊäÈë    £º-x 
+ * å‡½æ•°å  ï¼šLCD_ShowBmp
+ * æè¿°    ï¼šæ˜¾ç¤ºlenth*wideçš„16ä½çœŸå½©å›¾ç‰‡
+ * è¾“å…¥    ï¼š-x 
  *           -y 
- *     		   -p Í¼Æ¬Ê×µØÖ·
- * Êä³ö    £ºÎŞ
- * µ÷ÓÃ    £ºLCD_ShowBmp(0, 0, 240, 320, (u8 *)p); 
- *           Ò»°ãÊÇ240*320µÄ16bitÕæ²ÊÍ¼¡£
- *					 Íâ²¿µ÷ÓÃ	   
+ *     		   -p å›¾ç‰‡é¦–åœ°å€
+ * è¾“å‡º    ï¼šæ— 
+ * è°ƒç”¨    ï¼šLCD_ShowBmp(0, 0, 240, 320, (u8 *)p); 
+ *           ä¸€èˆ¬æ˜¯240*320çš„16bitçœŸå½©å›¾ã€‚
+ *					 å¤–éƒ¨è°ƒç”¨	   
  */
 void LCD_ShowBmp(u8 x, u16 y, u8 lenth, u16 wide, const u8 *p)
 {      
@@ -1609,7 +1609,7 @@ void LCD_ShowBmp(u8 x, u16 y, u8 lenth, u16 wide, const u8 *p)
     LCD_WR_CMD(0x0021, y); 
     LCD_WR_REG(0X22);
     
-    size = (u32) lenth * wide * 2; 	 // 16bitÕæ²Ê,Ò»¸öÏñËØÁ½¸ö×Ö½Ú
+    size = (u32) lenth * wide * 2; 	 // 16bitçœŸå½©,ä¸€ä¸ªåƒç´ ä¸¤ä¸ªå­—èŠ‚
     
     while(n < size) 
     {		
@@ -1627,7 +1627,7 @@ void MY_LCD_WR_Data(unsigned int val)
 void bmp(u16 x, u16 y, u16 width, u16 height)
 {    
 #ifdef HX8347	 
-	  LCD_WR_CMD(0x16,0X20); 	 //ºáÆÁ  ×óÏÂµ½ÓÒÉÏ½Ç·½Ïò
+	  LCD_WR_CMD(0x16,0X20); 	 //æ¨ªå±  å·¦ä¸‹åˆ°å³ä¸Šè§’æ–¹å‘
     LCD_WR_CMD(0x06, 0);
     LCD_WR_CMD(0x07, x); 
     
@@ -1641,8 +1641,8 @@ void bmp(u16 x, u16 y, u16 width, u16 height)
     LCD_WR_CMD(0x05, (y+width-1)-(((y+width-1)>>8)<<8));
 #else
 		Set_direction(0);
-    LCD_WR_CMD(0X20, x);			//Ë®Æ½ÏÔÊ¾ÇøµØÖ·
-    LCD_WR_CMD(0X21, y);			//´¹Ö±ÏÔÊ¾ÇøµØÖ·
+    LCD_WR_CMD(0X20, x);			//æ°´å¹³æ˜¾ç¤ºåŒºåœ°å€
+    LCD_WR_CMD(0X21, y);			//å‚ç›´æ˜¾ç¤ºåŒºåœ°å€
     
     LCD_WR_CMD(0x0050, x); 
     LCD_WR_CMD(0x0052, y); 
@@ -1688,16 +1688,16 @@ u16 bmp4(u16 x, u16 y)
 	 //	return (LCD_BGR2RGB(LCD_RD_data())) ;
        
 }
-/*----------------------------------BMPÓ¦ÓÃº¯Êı end-------------------------------*/
+/*----------------------------------BMPåº”ç”¨å‡½æ•° end-------------------------------*/
 
 /*
- * º¯ÊıÃû£ºLCD_Init
- * ÃèÊö  £ºLCD ¿ØÖÆ I/O ³õÊ¼»¯
- *         LCD FSMC ³õÊ¼»¯
- *         LCD ¿ØÖÆÆ÷ ILI9325C ³õÊ¼»¯         
- * ÊäÈë  £ºNONE
- * Êä³ö  £ºNONE
- * µ÷ÓÃ  £ºÍâ²¿µ÷ÓÃ
+ * å‡½æ•°åï¼šLCD_Init
+ * æè¿°  ï¼šLCD æ§åˆ¶ I/O åˆå§‹åŒ–
+ *         LCD FSMC åˆå§‹åŒ–
+ *         LCD æ§åˆ¶å™¨ ILI9325C åˆå§‹åŒ–         
+ * è¾“å…¥  ï¼šNONE
+ * è¾“å‡º  ï¼šNONE
+ * è°ƒç”¨  ï¼šå¤–éƒ¨è°ƒç”¨
  */
 void LCD_Init(void)
 {
@@ -1762,7 +1762,7 @@ void LCD_Init(void)
     //SET PANEL
     LCD_WR_CMD(0x36,0x09); //SS_P, GS_P,REV_P,BGR_P       
     LCD_WR_CMD(0x28,0x3F); //GON=1, DTE=1, D=1100        
-    LCD_WR_CMD(0x16,0x50); //×óÉÏµ½ÓÒÏÂ   ÊúÆÁ 
+    LCD_WR_CMD(0x16,0x50); //å·¦ä¸Šåˆ°å³ä¸‹   ç«–å± 
     //LCD_WR_CMD(0x16,0X70); //    
     LCD_WR_CMD(0x02,0x00);
     LCD_WR_CMD(0x03,0x00); //Column Start    
@@ -1780,15 +1780,15 @@ void LCD_Init(void)
     LCD_WR_CMD(0x00EF, 0x1231); // Set internal timing
     LCD_WR_CMD(0x0000, 0x0001); // Start Oscillation
     
-    //LCD_WR_CMD(0x0001, 0x0100); // set SS and SM bit s720->s1(×óÉÏ½ÇÎª×ø±êÔ­µã)
-    //LCD_WR_CMD(0x0060, 0xA700);	// R01ÖĞµÄSSºÍR60ÖĞµÄGSÒ»Æğ¾ö¶¨×ø±êÔ­µã
+    //LCD_WR_CMD(0x0001, 0x0100); // set SS and SM bit s720->s1(å·¦ä¸Šè§’ä¸ºåæ ‡åŸç‚¹)
+    //LCD_WR_CMD(0x0060, 0xA700);	// R01ä¸­çš„SSå’ŒR60ä¸­çš„GSä¸€èµ·å†³å®šåæ ‡åŸç‚¹
     
     //	LCD_WR_CMD(0x0001, 0x0100);   // set SS and SM bit s720->s1
-    LCD_WR_CMD(0x0001, 0x0000);   // set SS and SM bit s1->s720		(ÓÒÏÂ½ÇÎª×ø±êÔ­µã)
-    //LCD_WR_CMD(0x0060, 0x2700); // R01ÖĞµÄSSºÍR60ÖĞµÄGSÒ»Æğ¾ö¶¨×ø±êÔ­µã
+    LCD_WR_CMD(0x0001, 0x0000);   // set SS and SM bit s1->s720		(å³ä¸‹è§’ä¸ºåæ ‡åŸç‚¹)
+    //LCD_WR_CMD(0x0060, 0x2700); // R01ä¸­çš„SSå’ŒR60ä¸­çš„GSä¸€èµ·å†³å®šåæ ‡åŸç‚¹
     
     LCD_WR_CMD(0x0002, 0x0700); // set 1 line inversion
-    /*ÉèÖÃÉ¨Ãè·½Ïò*/
+    /*è®¾ç½®æ‰«ææ–¹å‘*/
     //	LCD_WR_CMD(0x0003, 0X1018); // set GRAM write direction and BGR=0,262K colors,1 transfers/pixel.
     LCD_WR_CMD(0x0003, 0X1030); 
     
@@ -1834,7 +1834,7 @@ void LCD_Init(void)
     LCD_WR_CMD(0x0053, 0x013F); // Vertical GRAM Start Address
     
     LCD_WR_CMD(0x0060, 0xA700); // Gate Scan Line
-    //	LCD_WR_CMD(0x0060, 0x2700);		// ÓëR01ÖĞµÄSSÒ»Æğ¾ö¶¨×ø±êµÄÔ­µã
+    //	LCD_WR_CMD(0x0060, 0x2700);		// ä¸R01ä¸­çš„SSä¸€èµ·å†³å®šåæ ‡çš„åŸç‚¹
     
     LCD_WR_CMD(0x0061, 0x0001); // NDL,VLE, REV
     LCD_WR_CMD(0x006A, 0x0000); // set scrolling line
@@ -1877,23 +1877,22 @@ void LCD_Init(void)
 }
 
 /*
- * R01HÖĞµÄSSºÍR60HÖĞµÄGS¾ö¶¨ÁË×ø±êµÄÔ­µã¡£
- * R03H¾ö¶¨ÁËÊÇË®Æ½É¨Ãè»¹ÊÇ´¹Ö±É¨Ãè£¬Ë®Æ½É¨Ãè¸ú´¹Ö±É¨ÃèÓÖ
- * ·ÖÎªËÄÖÖ·½Ê½¡£Ë®Æ½È¡Ä£µÄÍ¼ÏñÓÃÒº¾§Ë®Æ½É¨ÃèÉ¨ÃèµÄ·½Ê½À´
- * ÏÔÊ¾µÄ»°»áÓĞÉÏÏÂµßµ¹»òÕß×óÓÒµßµ¹µÄÏÖÏó£¬µ«ÏÔÊ¾µÄÍ¼Æ¬ÊÇ
- * ÕıÈ·µÄ£¬ÈôÓÃÒº¾§´¹Ö±É¨ÃèµÄ·½Ê½µÄ»°Ôò»á³öÏÖÂÒÂë¡£
+ * R01Hä¸­çš„SSå’ŒR60Hä¸­çš„GSå†³å®šäº†åæ ‡çš„åŸç‚¹ã€‚
+ * R03Hå†³å®šäº†æ˜¯æ°´å¹³æ‰«æè¿˜æ˜¯å‚ç›´æ‰«æï¼Œæ°´å¹³æ‰«æè·Ÿå‚ç›´æ‰«æåˆ
+ * åˆ†ä¸ºå››ç§æ–¹å¼ã€‚æ°´å¹³å–æ¨¡çš„å›¾åƒç”¨æ¶²æ™¶æ°´å¹³æ‰«ææ‰«æçš„æ–¹å¼æ¥
+ * æ˜¾ç¤ºçš„è¯ä¼šæœ‰ä¸Šä¸‹é¢ å€’æˆ–è€…å·¦å³é¢ å€’çš„ç°è±¡ï¼Œä½†æ˜¾ç¤ºçš„å›¾ç‰‡æ˜¯
+ * æ­£ç¡®çš„ï¼Œè‹¥ç”¨æ¶²æ™¶å‚ç›´æ‰«æçš„æ–¹å¼çš„è¯åˆ™ä¼šå‡ºç°ä¹±ç ã€‚
  
- * ×¢      £ºÍ¼ÏñË®Æ½È¡Ä£Ê±ÔÚÒº¾§ÉÏÓĞËÄÖÖÏÔÊ¾·½Ê½ 
-             ´¹Ö±È¡Ä£Ê±Ò²ÓĞËÄÖÖÏÔÊ¾·½Ê½¡£
- * Ë®Æ½É¨Ãè£º0X1000 ÓÒÏÂ->×óÉÏ  
- *         : 0X1010	×óÏÂ->ÓÒÉÏ
- *				 : 0X1020	ÓÒÉÏ->×óÏÂ
- *				 : 0X1030	×óÉÏ->ÓÒÏÂ
- * ´¹Ö±É¨Ãè£º0X1008	ÓÒÏÂ->×óÉÏ
- *         : 0X1018	×óÏÂ->ÓÒÉÏ
- *         : 0X1028	ÓÒÉÏ->×óÏÂ
- *         : 0X1038	×óÉÏ->ÓÒÏÂ
+ * æ³¨      ï¼šå›¾åƒæ°´å¹³å–æ¨¡æ—¶åœ¨æ¶²æ™¶ä¸Šæœ‰å››ç§æ˜¾ç¤ºæ–¹å¼ 
+             å‚ç›´å–æ¨¡æ—¶ä¹Ÿæœ‰å››ç§æ˜¾ç¤ºæ–¹å¼ã€‚
+ * æ°´å¹³æ‰«æï¼š0X1000 å³ä¸‹->å·¦ä¸Š  
+ *         : 0X1010	å·¦ä¸‹->å³ä¸Š
+ *				 : 0X1020	å³ä¸Š->å·¦ä¸‹
+ *				 : 0X1030	å·¦ä¸Š->å³ä¸‹
+ * å‚ç›´æ‰«æï¼š0X1008	å³ä¸‹->å·¦ä¸Š
+ *         : 0X1018	å·¦ä¸‹->å³ä¸Š
+ *         : 0X1028	å³ä¸Š->å·¦ä¸‹
+ *         : 0X1038	å·¦ä¸Š->å³ä¸‹
  */
 
-/******************** (C) MODIFIED  2011 Ò°»ğÇ¶ÈëÊ½¿ª·¢¹¤×÷ÊÒ *****END OF FILE***/
 
