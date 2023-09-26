@@ -1,6 +1,6 @@
 /*******************************************
- * ÎÄ¼şÃû  £ºsd_fs_app.c
- * ÃèÊö    £ºMicroSD¿¨ÎÄ¼şÏµÍ³Ó¦ÓÃº¯Êı¿â¡£
+ * æ–‡ä»¶å  ï¼šsd_fs_app.c
+ * æè¿°    ï¼šMicroSDå¡æ–‡ä»¶ç³»ç»Ÿåº”ç”¨å‡½æ•°åº“ã€‚
 *********************************************/
 #include "sd_fs_app.h"
 #include "exti.h"
@@ -15,17 +15,17 @@ BYTE my_latest_buffer[512];
 uint8_t mystring[512]="womenzhijian";
 UINT mybr, mybw;            // File R/W count
 int mya = 0;
-char mypath[512]="0:";    // Ò»¶¨Òª³õÊ¼»¯Îª0:
+char mypath[512]="0:";    // ä¸€å®šè¦åˆå§‹åŒ–ä¸º0:
 
 
 
 
 
 /*
- * º¯ÊıÃû£ºNVIC_Configuration
- * ÃèÊö  £ºSDIO ÖĞ¶ÏÍ¨µÀÅäÖÃ
- * ÊäÈë  £ºÎŞ
- * Êä³ö  £ºÎŞ
+ * å‡½æ•°åï¼šNVIC_Configuration
+ * æè¿°  ï¼šSDIO ä¸­æ–­é€šé“é…ç½®
+ * è¾“å…¥  ï¼šæ— 
+ * è¾“å‡º  ï¼šæ— 
  */
 void SDIO_NVIC_Configuration(void)
 {
@@ -43,7 +43,7 @@ void SDIO_NVIC_Configuration(void)
 void sd_fs_init(void)
 {
     SDIO_NVIC_Configuration();	 
-    disk_initialize( 0 );	     /* SD ¿¨Ó²¼ş³õÊ¼»¯ */
+    disk_initialize( 0 );	     /* SD å¡ç¡¬ä»¶åˆå§‹åŒ– */
     
 }
 
@@ -52,7 +52,7 @@ void Sd_fs_test(void)
     int count=0;
     
     SDIO_NVIC_Configuration();
-    disk_initialize( 0 );	     /* SD ¿¨Ó²¼ş³õÊ¼»¯ */
+    disk_initialize( 0 );	     /* SD å¡ç¡¬ä»¶åˆå§‹åŒ– */
     f_mount(0, &myfs[0]);
     myres = f_open( &myfsrc , "0:/my__Demo.TXT" ,/* FA_CREATE_NEW |*/ FA_WRITE);
     
@@ -63,13 +63,13 @@ void Sd_fs_test(void)
         f_close(&myfsrc);      
     }
     
-    else if ( myres == FR_EXIST )  //Èç¹ûÎÄ¼şÒÑ¾­´æÔÚ
+    else if ( myres == FR_EXIST )  //å¦‚æœæ–‡ä»¶å·²ç»å­˜åœ¨
     {
 	
     }
     
     
-    myres = f_open(&myfsrc, "0:/my__Demo.TXT", FA_OPEN_EXISTING | FA_READ); /* ´ò¿ªÎÄ¼ş */	  //ok
+    myres = f_open(&myfsrc, "0:/my__Demo.TXT", FA_OPEN_EXISTING | FA_READ); /* æ‰“å¼€æ–‡ä»¶ */	  //ok
     
     mybr = 1;
     mya = 0;
@@ -78,17 +78,17 @@ void Sd_fs_test(void)
     for (;;) 
     {
         
-        for ( mya=0; mya<512; mya++ ) 	/* Çå»º³åÇø */
+        for ( mya=0; mya<512; mya++ ) 	/* æ¸…ç¼“å†²åŒº */
             mybuffer[mya]=0;
         
-     	myres = f_read( &myfsrc, mybuffer, sizeof(mybuffer), &mybr ); /* ½«ÎÄ¼şÀïÃæµÄÄÚÈİ¶Áµ½»º³åÇø */
-        sprintf((char*)&my_latest_buffer[count*512],"%s",mybuffer);	//´òÓ¡µ½»º³åÇø
+     	myres = f_read( &myfsrc, mybuffer, sizeof(mybuffer), &mybr ); /* å°†æ–‡ä»¶é‡Œé¢çš„å†…å®¹è¯»åˆ°ç¼“å†²åŒº */
+        sprintf((char*)&my_latest_buffer[count*512],"%s",mybuffer);	//æ‰“å°åˆ°ç¼“å†²åŒº
         
         count++;							
         if (myres || mybr == 0) break;   // error or eof        	    	
     }
     
-    f_close(&myfsrc);	 /* ¹Ø±Õ´ò¿ªµÄÎÄ¼ş */
+    f_close(&myfsrc);	 /* å…³é—­æ‰“å¼€çš„æ–‡ä»¶ */
     
     Set_direction(0);		 
     LCD_ShowString(100,100,1,my_latest_buffer);
@@ -100,10 +100,10 @@ void Sd_fs_test(void)
 
 /*******************************************************************************
 * Function Name  : Sdfs_new
-* Description    : ĞË½¨Ò»¸öÎÄ¼ş²¢Ğ´ÈëÊı¾İ  
-* Input          : new_file_name--ĞË½¨ÎÄ¼şµÄÃû³Æ  
-*				   write_buffer--Ğ´ÈëÎÄ¼şµÄÊı¾İ»º³åÇøµØÖ·  
-*				   buffer_size--»º³åÇø´óĞ¡
+* Description    : å…´å»ºä¸€ä¸ªæ–‡ä»¶å¹¶å†™å…¥æ•°æ®  
+* Input          : new_file_name--å…´å»ºæ–‡ä»¶çš„åç§°  
+*				   write_buffer--å†™å…¥æ–‡ä»¶çš„æ•°æ®ç¼“å†²åŒºåœ°å€  
+*				   buffer_size--ç¼“å†²åŒºå¤§å°
 * Output         : None
 * Return         : 0(success)  1(file existed )  -1(fail)
 * Attention		 : None
@@ -119,13 +119,13 @@ int Sdfs_new(BYTE *new_file_name, BYTE *write_buffer, BYTE buffer_size)
     if ( myres == FR_OK ) 
     { 
         
-        myres = f_write(&myfsrc, write_buffer,buffer_size, &mybr); //Ğ´ÈëÊı¾İ   
+        myres = f_write(&myfsrc, write_buffer,buffer_size, &mybr); //å†™å…¥æ•°æ®   
         f_close(&myfsrc);
         
         return 0;      
     }
     
-    else if ( myres == FR_EXIST )  //Èç¹ûÎÄ¼şÒÑ¾­´æÔÚ
+    else if ( myres == FR_EXIST )  //å¦‚æœæ–‡ä»¶å·²ç»å­˜åœ¨
     {
         return FR_EXIST;	 
     }
@@ -140,10 +140,10 @@ int Sdfs_new(BYTE *new_file_name, BYTE *write_buffer, BYTE buffer_size)
 
 /*******************************************************************************
 * Function Name  : Sdfs_write
-* Description    : ¶ÔÎÄ¼şĞ´ÈëÊı¾İ  
-* Input          : new_file_name--ÏÂÈëÊı¾İÎÄ¼şµÄÃû³Æ  
-*				   write_buffer--Ğ´ÈëÎÄ¼şµÄÊı¾İ»º³åÇøµØÖ·  
-*				   buffer_size--»º³åÇø´óĞ¡
+* Description    : å¯¹æ–‡ä»¶å†™å…¥æ•°æ®  
+* Input          : new_file_name--ä¸‹å…¥æ•°æ®æ–‡ä»¶çš„åç§°  
+*				   write_buffer--å†™å…¥æ–‡ä»¶çš„æ•°æ®ç¼“å†²åŒºåœ°å€  
+*				   buffer_size--ç¼“å†²åŒºå¤§å°
 * Output         : None
 * Return         : 0(success)   -1(fail)
 * Attention		 : None
@@ -159,13 +159,13 @@ int Sdfs_write(BYTE *write_file_name, BYTE *write_buffer, BYTE buffer_size)
     if ( myres == FR_OK )  
     { 
         /* Write buffer to file */	
-        myres = f_write(&myfsrc, write_buffer,buffer_size, &mybr); //Ğ´ÈëÊı¾İ   
+        myres = f_write(&myfsrc, write_buffer,buffer_size, &mybr); //å†™å…¥æ•°æ®   
         f_close(&myfsrc);
         
         return 0;      
     }
     else 
-	if(myres == FR_NO_FILE)	 //Èç¹ûÃ»ÓĞ¸ÃÎÄ¼ş
+	if(myres == FR_NO_FILE)	 //å¦‚æœæ²¡æœ‰è¯¥æ–‡ä»¶
 	{
         return FR_NO_FILE;
     } 
@@ -177,9 +177,9 @@ int Sdfs_write(BYTE *write_file_name, BYTE *write_buffer, BYTE buffer_size)
 
 /*******************************************************************************
 * Function Name  : Sdfs_read
-* Description    : ´ÓÒ»¸öÎÄ¼ş¶Á³öÊı¾İµ½»º³åÇø 
-* Input          : read_file_name--ÎÄ¼şµÄÃû³Æ  
-*				   				save_buffer--Êı¾İĞèÒª±£´æµÄµØÖ· 
+* Description    : ä»ä¸€ä¸ªæ–‡ä»¶è¯»å‡ºæ•°æ®åˆ°ç¼“å†²åŒº 
+* Input          : read_file_name--æ–‡ä»¶çš„åç§°  
+*				   				save_buffer--æ•°æ®éœ€è¦ä¿å­˜çš„åœ°å€ 
 * Output         : None
 * Return         : 0(success)  -1(fail)
 * Attention		 : None
@@ -199,11 +199,11 @@ int Sdfs_read(BYTE *read_file_name, BYTE *save_buffer)
         for (;;) 
         {
             
-            for ( mya=0; mya<512; mya++ ) 	/* Çå»º³åÇø */
+            for ( mya=0; mya<512; mya++ ) 	/* æ¸…ç¼“å†²åŒº */
                 mybuffer[mya]=0;
             
-            myres = f_read( &myfsrc, mybuffer, sizeof(mybuffer), &mybr ); /* ½«ÎÄ¼şÀïÃæµÄÄÚÈİÒÔ512×Ö½ÚÎªµ¥Î»¶Áµ½±¾µØ»º³åÇø */
-            sprintf((char*)&save_buffer[count*512],"%s",mybuffer);					//´òÓ¡µ½ÓÃ»§Ö¸¶¨µÄ»º³åÇø»º³åÇø
+            myres = f_read( &myfsrc, mybuffer, sizeof(mybuffer), &mybr ); /* å°†æ–‡ä»¶é‡Œé¢çš„å†…å®¹ä»¥512å­—èŠ‚ä¸ºå•ä½è¯»åˆ°æœ¬åœ°ç¼“å†²åŒº */
+            sprintf((char*)&save_buffer[count*512],"%s",mybuffer);					//æ‰“å°åˆ°ç”¨æˆ·æŒ‡å®šçš„ç¼“å†²åŒºç¼“å†²åŒº
             
             count++;							
             if (myres || mybr == 0) break;   // error or eof        	    	
@@ -223,9 +223,9 @@ int Sdfs_read(BYTE *read_file_name, BYTE *save_buffer)
 
 /*******************************************************************************
 * Function Name  : GetGBKCode_from_sd
-* Description    : ´ÓSD¿¨×Ö¿âÖĞ¶ÁÈ¡×ÔÃşÊı¾İµ½Ö¸¶¨µÄ»º³åÇø 
-* Input          : pBuffer---Êı¾İ±£´æµØÖ·  
-*				   					c--ºº×Ö×Ö·ûµÍ×Ö½ÚÂë 
+* Description    : ä»SDå¡å­—åº“ä¸­è¯»å–è‡ªæ‘¸æ•°æ®åˆ°æŒ‡å®šçš„ç¼“å†²åŒº 
+* Input          : pBuffer---æ•°æ®ä¿å­˜åœ°å€  
+*				   					c--æ±‰å­—å­—ç¬¦ä½å­—èŠ‚ç  
 * Output         : None
 * Return         : 0(success)  -1(fail)
 * Attention		 	 : None
@@ -234,8 +234,8 @@ int GetGBKCode_from_sd(unsigned char* pBuffer,unsigned char * c)
 { 
     unsigned char High8bit,Low8bit;
     unsigned int pos;
-    High8bit=*c;     /* È¡¸ß8Î»Êı¾İ */
-    Low8bit=*(c+1);  /* È¡µÍ8Î»Êı¾İ */
+    High8bit=*c;     /* å–é«˜8ä½æ•°æ® */
+    Low8bit=*(c+1);  /* å–ä½8ä½æ•°æ® */
     
     pos = ((High8bit-0xb0)*94+Low8bit-0xa1)*2*16 ;	
     f_mount(0, &myfs[0]);
@@ -243,8 +243,8 @@ int GetGBKCode_from_sd(unsigned char* pBuffer,unsigned char * c)
     
     if ( myres == FR_OK ) 
     {
-        f_lseek (&myfsrc, pos);														 //Ö¸ÕëÆ«ÒÆ
-        myres = f_read( &myfsrc, pBuffer, 32, &mybr );		 //16*16´óĞ¡µÄºº×Ö Æä×ÖÄ£ Õ¼ÓÃ16*2¸ö×Ö½Ú
+        f_lseek (&myfsrc, pos);														 //æŒ‡é’ˆåç§»
+        myres = f_read( &myfsrc, pBuffer, 32, &mybr );		 //16*16å¤§å°çš„æ±‰å­— å…¶å­—æ¨¡ å ç”¨16*2ä¸ªå­—èŠ‚
         
         f_close(&myfsrc);
         
@@ -255,6 +255,6 @@ int GetGBKCode_from_sd(unsigned char* pBuffer,unsigned char * c)
         return -1;
     
 }
-/******************** (C) MODIFIED  2011 Ò°»ğÇ¶ÈëÊ½¿ª·¢¹¤×÷ÊÒ *****END OF FILE***/
+
 
 
